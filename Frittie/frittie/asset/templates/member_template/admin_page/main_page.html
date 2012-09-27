@@ -1,0 +1,443 @@
+{% extends "member_template/member_admin_base.html" %}
+
+{% block title %} 
+	Frittie - {{member_login.user.first_name}} {{member_login.user.last_name}}  
+{% endblock %}
+
+{% block script %}
+<link rel="stylesheet" href="{{STATIC_URL}}css/app/member.css" type="text/css" />
+<script type="text/javascript" src="{{STATIC_URL}}js/app/member/function.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/app/member/main.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/plugins/raty/jquery.raty.js"></script>
+<script type='text/javascript' src='{{STATIC_URL}}js/plugins/jquery_timepicker/jquery-ui-timepicker-addon.js'></script>
+{% endblock %}
+
+{% block comet_js_function %}
+	<script type='text/javascript'>
+        function update_data(data) {
+            update_notify(data);
+            if ((data['new_friend_activity']) || (data['new_friend_activity1'])) {
+            	update_streams(data);
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block profile_area %}
+<div id='profile_area'>
+	<div class='member-profile-edit pull-right'>
+		<input type='button' class='btn btn-mini' id='edit_profile_btn' value='Edit'>
+	</div>
+	<div class='member-avatar pull-left'>
+		<img src='{{MEDIA_URL}}{{member_view.avatar}}' width=150 height=150>
+	</div>
+	<div class='member-profile pull-left'>
+		<div class='member-name'>
+			<p>
+				<h2>{{member_view.user.first_name}} {{member_view.user.last_name}}</h2>
+			</p>
+		</div>
+		{% if member_view.age %}
+			<div class='member-age'>
+				<p>
+					<script> document.write(get_age({{member_view.birthdate.year}})) </script>
+				</p>
+			</div>
+		{% endif %}
+		<div class='member-gender'>
+			<p>
+				{% if member_view.gender == 'Male' or member_view.gender == 'm' %}
+					Male
+				{% else %}
+					Female
+				{% endif %}
+			</p>
+		</div>
+		<div class='member-basic-info'	
+			<p>
+				{{member_view.basic_info}}
+			</p>
+		</div>
+		<div class='member-place'>
+			{% if member_view.city and member_view.state %}
+				<p>
+					{{member_view.city}}, {{member_view.state}}
+				</p>
+			{% else %}
+				{% if member_view.city %}
+					<p>
+						Live in {{member_view.city}}
+					</p>
+				{% elif member_view.state %}
+					<p>
+						From <script> document.write(state_name['{{member_view.state}}']) </script>
+					</p>
+				{% endif %}
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+
+{% block friends_area %}
+<div id='friends_area'>
+	<div class='friends-area-header'>
+		<h4> Friends </h4>
+	</div>
+	<div class='friends-area-body'>
+		{% if friends %}
+			<ul class='friend-list-data'>
+				{% for friend in friends %}
+					<li class='friend-item-data'>
+						<a href='/{{friend.user.username}}' >
+							<img src='{{MEDIA_URL}}{{friend.avatar}}' width=50 height=50>
+							{{friend.user.first_name}} {{friend.user.last_name}}
+						</a>
+					</li>
+				{% endfor %}
+			</ul>
+		{% else %}
+			<div class='no-friend-notice'> 
+				<p> 
+					You currently have no friends in your friend list.  
+					<a href='/friends/find/' id='find_friend_link' >
+						Find some
+					</a>
+				</p> 
+			</div>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
+
+{% block toolbar_area %}
+<div id='toolbar_area'>
+	<ul class='nav nav-pills' id='toolbar_tab'>
+		{% if section == "activity" %}
+			<li class='active'>
+		{% else %}
+			<li>
+		{% endif %}
+			<a href="#activity_section" data-toggle="tab"> Activity</a>
+		</li>
+				
+		{% if section == "location" %}
+			<li class='active'>
+		{% else %}
+			<li>
+		{% endif %}
+			<a href="#location_section" data-toggle="tab"> Location</a>
+		</li>
+				
+		{% if section == "friends" %}
+			<li class='active'>
+		{% else %}
+			<li>
+		{% endif %}
+			<a href="#friends_section" data-toggle="tab"> Friends</a>
+		</li>
+	</ul>
+</div>
+{% endblock %}
+
+{% block main_area %}
+<div id='main_area'>
+	<div class='tab-content'>		
+		{% if section == "activity" %}
+			<div class="tab-pane active" id='activity_section'>
+		{% else %}
+			<div class="tab-pane" id='activity_section'>
+		{% endif %}
+				<input type='button' class='btn btn-primary pull-right' id='create_normal_activity_btn' value='Create activity'>
+				<ul class='nav nav-tabs' id='activity_tab'>
+					<li class='active'>
+						<a href='#activity_create' data-toggle='tab'>Create </a>
+					</li>
+					<li>
+						<a href='#activity_join' data-toggle='tab'>Join</a>
+					</li>
+				</ul>
+				<div class='tab-content'>
+					<div class='tab-pane active' id='activity_create'>
+						{% if activity_create %}
+						<ul class='activity-create-list-data'>
+							{% for activity in activity_create %}
+								<li class='activity-create-item-data' id='activity_{{activity.id}}'>
+									<div class='activity-create-button pull-right'>
+									{% if activity.activity_status == 'Past' %}
+										<input type='button' id='upload_photo_btn' class='btn btn-primary' onclick="handle_upload_photo({{activity.id}})" value='Upload Photo'> 
+									{% endif %}
+										<input type='button' id='manage_activity_btn' class='btn btn-primary' onclick="window.location.href='/activity/{{activity.id}}/manage/'" value='Manage' >
+									</div>
+									<div class='activity-create-info'>
+										<div class='activity-create-logo pull-left'>
+											<a href='/activity/{{activity.pk}}'>
+												<img src='{{MEDIA_URL}}{{activity.logo}}' width=80 height=80>	
+											</a>
+										</div>
+										<div class='activity-create-info pull-left'>
+											<div class='activity-create-name'>
+												<a href='/activity/{{activity.pk}}'>
+													<h3>{{activity.name}}</h3>
+												</a>
+											</div>
+											<div class='activity-create-status'>
+												<p>
+													Status: {{activity.activity_status}}
+												</p>
+											</div>
+											<div class='activity-create-place'>
+												<p>
+													{{activity.location.city}}, {{activity.location.state}}
+												</p>
+											</div>
+										</div>
+									</div>
+								</li>
+							{% endfor %}
+						</ul>
+						{% else %}
+							<div class='no-activity-create-notice'>
+								<h3> {{member_view.user.first_name}} {{member_view.user.last_name}} have not created any activity </h3>
+							</div>
+						{% endif %}
+					</div>
+					<div class='tab-pane' id='activity_join'>
+						{% if activity_join %}
+						<ul class='activity-join-list-data'>
+							{% for activity in activity_join %}
+								<li class='activity-join-item-data' id='activity_{{activity.id}}' >
+									<div class='activity-join-button pull-right'>
+										{% if activity.activity_status == 'Past' %}
+											<input type='button' id='upload_photo_btn' class='btn btn-primary' onclick="handle_upload_photo({{activity.id}})" value='Upload Photo'> 
+										{% else %}
+											<input type='button' id='cancel_joining_btn' class='btn btn-primary' onclick="handle_cancel_joining_activity({{activity.id}})" value='Cancel Joining'> 
+										{% endif %}
+									</div>
+									<div class='activity-join-info'>
+										<div class='activity-join-logo pull-left'>
+											<a href='/activity/{{activity.pk}}'>
+												<img src='{{MEDIA_URL}}{{activity.logo}}' width=80 height=80>	
+											</a>
+										</div>
+										<div class='activity-join-info'>
+											<div class='activity-join-name'>
+												<a href='/activity/{{activity.pk}}'>
+													<h3>{{activity.name}}</h3>
+												</a>
+											</div>
+											<div class='activity-join-status'>
+												<p>
+													Status: {{activity.activity_status}}
+												</p>
+											</div>
+											<div class='activity-join-place'>
+												<p>
+													{{activity.location.city}}, {{activity.location.state}}
+												</p>
+											</div>
+										</div>
+									</div>
+								</li>
+							{% endfor %}
+						</ul>
+						{% else %}
+							<div class='no-activity-join-notice'>
+								<h3> {{member_view.user.first_name}} {{member_view.user.last_name}} have not joined any activity </h3>
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+
+
+		{% if section == "location" %}
+			<div class="tab-pane active" id='location_section'>
+		{% else %}
+			<div class="tab-pane" id='location_section'>
+		{% endif %}
+				<input type='button' class='btn btn-primary pull-right' id='init_create_location_btn' value='Create location'>
+				<ul class='nav nav-tabs' id='location_tab'>
+					<li class='active'>
+						<a href='#location_create' data-toggle='tab'>Create </a>
+					</li>
+					<li>
+						<a href='#location_follow' data-toggle='tab'>Follow</a>
+					</li>
+				</ul>
+				<div class='tab-content'>
+					<div class='tab-pane active' id='location_create'>
+						{% if location_create %}
+						<ul class='location-create-list-data'>
+							{% for location in location_create %}
+								<li class='location-create-item-data' id='location_{{location.id}}'>
+									<div class='location-create-button pull-right'>
+										<input type='button' id='edit_location_btn' class='btn btn-primary' onclick="window.location.href='/location/{{location.id}}/edit/" value='Edit'> 
+										<input type='button' id='create_activity_at_location_btn' class='btn btn-primary' onclick="window.location.href='/activity/create/?location={{location.id}}" value='Create activity here'> 
+									</div>
+									<div class='location-create-info'>
+										<div class='location-create-logo pull-left'>
+											<a href='/location/{{location.pk}}'>
+												<img src='{{MEDIA_URL}}{{location.avatar}}' width=80 height=80>	
+											</a>
+										</div>
+										<div class='location-create-info pull-left'>
+											<div class='location-create-name'>
+												<a href='/location/{{location.pk}}'>
+													<h3>{{location.name}}</h3>
+												</a>
+											</div>
+											<div class='location-create-category'>
+												<p>
+													Type: {{location.category}}
+												</p>
+											</div>
+											<div class='location-create-rating'>
+												 <div class='star-rating' data-rating='{{location.rating}}'></div>
+											</div>
+											<div class='location-create-place'>
+												<p>
+													{{location.city}}, {{location.state}}
+												</p>
+											</div>
+										</div>
+									</div>
+								</li>
+							{% endfor %}
+						</ul>
+						{% else %}
+							<div class='no-location-create-notice'>
+								<h3> {{member_view.user.first_name}} {{member_view.user.last_name}} have not created any location </h3>
+							</div>
+						{% endif %}
+					</div>
+					<div class='tab-pane' id='location_follow'>
+						{% if location_follow %}
+						<ul class='location-follow-list-data'>
+							{% for location in location_follow %}
+								<li class='location-follow-item-data' id='location_{{location.id}}'>
+									<div class='location-follow-button pull-right'>
+										<input type='button' id='create_activity_at_location_btn' class='btn btn-primary' onclick="window.location.href='/activity/create/?location={{location.id}}'" value='Create activity here'> 
+									</div>
+									<div class='location-follow-info'>
+										<div class='location-follow-logo pull-left'>
+											<a href='/location/{{location.pk}}'>
+												<img src='{{MEDIA_URL}}{{location.avatar}}' width=80 height=80>	
+											</a>
+										</div>
+										<div class='location-follow-info pull-left'>
+											<div class='location-follow-name'>
+												<a href='/location/{{location.pk}}'>
+													<h3>{{location.name}}</h3>
+												</a>
+											</div>
+											<div class='location-follow-category'>
+												<p>
+													Type: {{location.category}}
+												</p>
+											</div>
+											<div class='location-follow-rating'>
+												<div class='star-rating' data-rating='{{location.rating}}'>
+												</div>
+											</div>
+											<div class='location-follow-place'>
+												<p>
+													{{location.city}}, {{location.state}}
+												</p>
+											</div>
+										</div>
+									</div>
+								</li>
+							{% endfor %}
+						</ul>
+						{% else %}
+							<div class='no-location-follow-notice'>
+								<h3> {{member_view.user.first_name}} {{member_view.user.last_name}} have not followed any location </h3>
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+
+
+
+		{% if section == "friends" %}
+			<div class="tab-pane active" id='friends_section'>
+		{% else %}
+			<div class="tab-pane" id='friends_section'>
+		{% endif %}
+				{% if friends %}
+				<ul class='friends-list-data'>
+					{% for friend in friends %}
+						<li class='friends-item-data'>
+							<div class='friends-profile'>
+								<div class='friends-avatar pull-left'>
+									<a href='/{{friend.user.username}}'>
+										<img src='{{MEDIA_URL}}{{friend.avatar}}' width=70 height=70>
+									</a>
+								</div>
+								<div class='friends-info pull-left'>
+									<div class='friends-name'>
+										<a href='/{{friend.user.username}}'>
+											<p> 
+												{{friend.user.first_name}} {{friend.user.last_name}}
+											</p>
+										</a>
+									</div>
+									<div class='friends-gender'>
+										<p> {{friend.gender}} </p>
+									</div>
+									<div class='friends-place'>
+										{% if friend.city and friend.state %}
+											<p>
+												{{friend.city}}, {{friend.state}}
+											</p>
+										{% else %}
+											{% if friend.city %}
+												<p>
+													Live in {{friend.city}}
+												</p>
+											{% elif friend.state %}
+												<p>
+													From <script> document.write(state_name['{{friend.state}}']) </script>
+												</p>
+											{% endif %}
+										{% endif %}
+									</div>
+								</div>
+							</div>
+						</li>
+					{% endfor %}
+				</ul>
+				{% else %}
+					<div class='no-friend-notice'>
+						<h3> 
+							{{member_view.user.first_name}} {{member_view.user.last_name}} have no friend in 
+							<script> document.write(get_gender('{{member_view.gender}}',true)) </script>
+							friend's list 
+						</h3>
+					</div>
+				{% endif %}
+			</div>
+	</div>
+</div>
+{% endblock %}
+
+
+
+{% block friends_activity_stream_area %}
+<div id='friends_activity_stream_area'>
+	<div class='friends-activity-stream-title'>
+		<h3> Friends' Activity </h3>
+	</div>
+	<div class='friends-activity-stream-body'>
+		<ul class='friends-activity-stream-list-data'>
+			{% for stream in friends_activity_stream %}
+				{{stream.friend_content|safe}}
+			{% endfor %}
+		</ul>
+	</div>
+</div>
+{% endblock %}

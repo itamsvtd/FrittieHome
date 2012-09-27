@@ -1,0 +1,78 @@
+.typeahead {
+	margin: -1px 0px 0px 0px;
+	padding: 0px;
+	border-radius: 0px;
+	border-top: 1px solid #233039;
+	z-index: 1050;
+	border-left:0px;
+	border-bottom: 0px;
+}
+
+.typeahead li {
+	width: 100%;
+	background-color: #1a242b;
+	border-bottom: 1px solid #233039;
+	border-left: 1px solid #233039;
+	border-right: 1px solid #233039;
+}
+
+.typeahead li:hover {
+	background-color: #233039;
+}
+
+.typeahead li a {
+	color: #7c7a7b;
+}
+
+.typeahead li a strong {
+	color: #bbbbbb;
+}
+
+.typeahead li a:hover {
+	text-decoration: none
+}
+
+#user_action {
+	left: -155px;
+	top: 49px;
+	width:185px;
+	padding: 0px;
+	margin: 0px;
+	border-radius: 0px
+}
+
+#user_action li.divider {
+	height: 1px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+#user_action li {
+	text-align: right;
+	height: 30px;
+	padding: 0px;
+	margin: 0px;
+}
+
+#user_action li a {
+	height: 25px;
+	padding: 5px 20px 0px 0px;
+	font-weight: bold;
+	font-size: 13px;
+}
+
+#user_action li a:hover {
+	height: 25px;
+}
+
+/* Customize Boostrap CSS dropdown menu icon */
+.navbar .dropdown-menu::after {
+	position: absolute;
+	top: -14px;
+	left: 10px;
+	display: inline-block;
+	border-right: 10px solid transparent;
+	border-bottom: 14px solid white;
+	border-left: 10px solid transparent;
+	content: '';
+}

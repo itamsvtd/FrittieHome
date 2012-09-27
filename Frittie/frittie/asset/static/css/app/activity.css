@@ -1,0 +1,52 @@
+#activity_comment .activity-comment-box textarea {
+	width:500px;
+}
+
+#modal_upload_photo {
+	position: absolute;
+	left:500px;
+	top:350px;
+	width:800px;
+	height: 500px;
+}
+
+#modal_upload_photo .modal-footer {
+	position:absolute;
+	bottom:15px;
+	width:720px;
+}
+
+#activity_picture_gallery ul {
+	list-style-type: none;
+}
+
+#activity_picture_gallery ul li {
+	display: inline;
+}
+
+.create-activity-title {
+	text-align: center;
+}
+
+.create-activity-content {
+	margin-top: 50px;
+}
+
+#create_activity_area ul {
+	list-style-type: none;
+	text-align:center;
+}
+
+#create_activity_area ul li {
+	display: inline;
+	margin-left:30px;
+}
+
+.activity-type-main {
+	width: 200px;
+}
+
+.activity-type-description {
+	width:200px;
+	text-align: center;
+}

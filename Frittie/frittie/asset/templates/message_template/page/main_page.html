@@ -1,0 +1,89 @@
+{% extends "message_template/message_base.html" %}
+
+{% block script %}
+<script>
+	var friends_autocomplete_data = {{friends_autocomplete_data|safe}}
+</script>
+<link rel="stylesheet" href="{{STATIC_URL}}css/app/message.css" type="text/css" />
+<script type="text/javascript" src="{{STATIC_URL}}js/app/message/function.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/app/message/main.js"></script>
+{% endblock %}
+
+{% block comet_js_function %}
+	<script type='text/javascript'>
+        function update_data(data) {
+            update_notify(data);
+            if (data['msg_content']) {
+            	update_messages(data);
+            } 
+        }
+    </script>
+{% endblock %}
+
+{% block friends_area %}
+<div id='friends_area'>
+	<div class='friends-area-action'>
+		<div class='friends-search'>
+			<input type='text' id='search_friend_query' size='27' placeholder="Search friends">
+		</div>
+	</div>
+	<div class='friends-area-header'>
+		<h4> Friends </h4>
+	</div>
+	<div class='friends-area-body'>
+		<ul class='friend-list-data'>
+			{% for friend in friends %}
+				<li class='friend-item-data'>
+					<a href='/messages/{{friend.user.username}}' >
+						<img src='{{MEDIA_URL}}{{friend.avatar}}' width=50 height=50>
+						{{friend.user.first_name}} {{friend.user.last_name}}
+					</a>
+				</li>
+			{% endfor %}
+		</ul>
+	</div>
+</div>
+{% endblock %}
+
+
+{% block message_area %}
+<div id='message_area'>
+	{% if messages %}
+		<div class='message-main-display'>
+			<ul class='message-list-data'>
+				{% for message in messages %}
+					<li class='message-item-data' id='message_from_{{message.member.user.username}}'> 
+						<a href='/messages/{{message.member.user.username}}/#chat_box'>
+							<div class='message-member'>
+								<p>
+									<div class='message-member-avatar'>
+										<img src='{{MEDIA_URL}}{{message.member.avatar}}' width=25 height=25> 
+									</div>
+									<div class='message-member-name'>
+										<h4>
+											{{message.member.user.first_name}} {{message.member.user.last_name}}
+										</h4>
+									</div>
+								</p>
+							</div>
+							<div class='message-content'>
+								<p>
+									{{message.last_chat|safe}}
+								</p>
+							</div>
+							<div class='message-date'>
+								<p><small>{{message.date}}</small></p>
+							</div>
+						</a>
+						<hr>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% else %}
+		<div class='no-message-notice'>
+			<p>You currently have no message in your mailbox</p>
+		</div<
+	{% endif %}
+</div>
+{% endblock %}

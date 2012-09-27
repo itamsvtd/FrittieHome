@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id='Content'>
+	<div id='main_area'>
+		<div class='container-fluid'>
+			<div class='row-fluid>'>
+				<div class='span3'>
+					{% block info_board %} {% endblock %}
+				</div>
+				<div class='span9'>
+					{% block info_content_area %} {% endblock %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,287 @@
+{% extends "location_template/location_admin_base.html" %} 
+
+{% block title %} {{location.name}}{% endblock %}
+
+{% block script %}
+<link rel="stylesheet" href="{{STATIC_URL}}css/app/location.css" type="text/css" />
+<script type="text/javascript" src="{{STATIC_URL}}js/app/location/function.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/app/location/main.js"></script>
+<script type='text/javascript' src='{{STATIC_URL}}js/plugins/jquery_timepicker/jquery-ui-timepicker-addon.js'></script>
+{% endblock %}k
+
+{% block location_area %}
+<div id="location_area">
+  <div id="location_photo" class="carousel slide">
+      <div class="carousel-inner">
+          <div class="item active">
+              <img src="{{MEDIA_URL}}{{location.avatar}}" alt="">
+          </div>
+          {% if location_photo %}
+            {% for photo in location_photo %}
+              <div class="item">
+                <img src="{{MEDIA_URL}}{{photo.photo}}" alt="">      
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+        <a class="left carousel-control" href="#location_photo" data-slide="prev">‹</a>
+        <a class="right carousel-control" href="#location_photo" data-slide="next">›</a>
+  </div>
+  <div id="location_description">
+    <h3> Description </h3>
+    <div class='description'>
+      {{location.description_html|safe}}
+    </div>
+  </div>
+  <div id="location_follower">
+      <h3>Follower </h3>
+        <div class="row">
+          <ul class="follower-list-data">
+            {% for member in location.follow_by.all %}
+              <li class='follower-item-data' id='member_{{member.user.username}}'>
+                <a href="/{{member.user.username}}" rel="tooltip" title="{{member.user.first_name}} {{member.user.last_name}}">
+                <img src="{{MEDIA_URL}}{{member.avatar}}" width=80 height=80 />
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block location_review_area %}
+<div id="location_review_area">
+  <div id='location_basic_info'>
+    <div class='location-address'>
+      {% if location.address2 %}
+        <p class='location-address1'> {{location.address1}} </p>
+        <p class='location-address2'> {{location.address2}} </p>
+        <p>
+          <span class='location-city'>{{location.city}}</span>
+            <span class='location-state'>, {{location.state}}</span>
+            <span class='location-zipcode'> {{location.zip_code}} </span>
+        </p>
+      {% else %}
+        <p class='location-address1'> {{location.address1}}, 
+            <span class='location-city'>{{location.city}}</span>
+            <span class='location-state'>, {{location.state}}</span>
+            <span class='location-zipcode'> {{location.zip_code}} </span>
+        </p>
+      {% endif %}
+    </div>
+  </div>
+  <div id='location_preference'>
+
+  </div>
+  <div id='location_comment'>
+    <div class='location-comment-data'>
+      <ul class='comment-list-data'>
+        {% if location_comment %}   
+          {% for comment in location_comment %}
+            <li class='comment-item-data' id='comment-{{comment.pk}}'>
+              {% if comment.member == member_login %}     
+                <div class='remove-comment pull-right'>
+                  <a href='#comment-{{comment.pk}}' class='icon-remove' id='remove_comment_btn' rel='tooltip' title='Remove this comment' onclick='init_remove_comment({{comment.pk}})'></a>
+                </div>
+                <div class='edit-comment pull-right'>
+                  <a href='#comment-{{comment.pk}}' class='icon-pencil' id='edit_comment_btn' rel='tooltip' title='Edit this comment' onclick='init_edit_comment({{comment.pk}})'></a>
+                </div>
+              {% else %}
+                <div class='report-comment pull-right'>
+                  <a href='#comment-{{comment.pk}}' class='icon-flag' id='report_comment_btn' rel='tooltip' title='Report this comment' onclick='report_comment({{comment.pk}})'></a>
+                </div>
+              {% endif %}
+              <div class='comment-member-avatar'>
+                <a href='/{{comment.member.user.username}}'>
+                  <img src='{{MEDIA_URL}}{{comment.member.avatar}}' width=50 height=50>
+                </a>
+              </div>
+              <div class='comment-member-name'>
+                <a href='/{{comment.member.user.username}}'>
+                  <p>
+                    {{comment.member.user.first_name}} {{comment.member.user.last_name}}
+                  </p>
+                </a>
+              </div>
+              <div class='comment-main-content'>          
+                  {{comment.content_html|safe}}
+              </div>
+              <div class='comment-post-date'>
+                <p>
+                  {{comment.created_elapse_time}}
+                </p>
+              </div>
+              {% if comment.edit_date %}
+              <div class='comment-edit-date'>
+                <p><small>Last Updated: 
+                    {{comment.edit_elapse_time}}
+                </small></p>
+              </div>
+              {% endif %}
+            </li>
+          {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+    <div class='location-comment-box'>
+      {% if member_login %}
+        <textarea id='comment_box'></textarea>
+      {% else %}
+        <p> <a href='/login/?next=/location/{{location.pk}}'> Login</a> to comment</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block location_activity_area %}
+<div id="location_activity_area">
+  <div class='create-activity'>
+    <input type='button' id='init_create_activity_btn' value='Create Activity' class='btn btn-success btn-large'>
+  </div>
+  <div class='schedule-activity'>
+    <h4> Choose a day for your activity: </h4>
+    <div id="datepicker"></div>
+  </div>
+  <div class='location-activity'>  
+    <div id="activity_title">
+      <h2> {{ location.name }}'s Activity </h2>
+    </div>
+    <div id='activity_data'>
+      <div class='upcoming-activity'>
+        <div class='title'>
+          <h4> Upcoming </h4>
+        </div>
+        <div class='data'>
+          {% for activity in upcoming_activities %}
+            {% if activity.privacy_status == 'Public' %}
+                <div class='activity-name'> 
+                    <a href='/activity/{{activity.pk}}' > 
+                        {{activity.name}}
+                    </a> 
+                </div> 
+                <div class='activity-time'> 
+                <script>
+                    var hour = parseInt({{activity.start_time.hour|safe}},10);
+                    var minute = parseInt({{activity.start_time.minute|safe}},10);
+                    var weekday = parseInt({{activity.start_time.date.weekday}},10);
+                    var day = parseInt({{activity.start_time.date.day}},10);
+                    var month = parseInt({{activity.start_time.date.month}},10);
+                    var year = parseInt({{activity.start_time.date.year}},10);
+                    var time = convert_24hr_to_AM_PM(year, month,day,hour,minute);
+                    var date = convert_date_name(year,month,day,weekday)
+                    document.write("<strong>" + date + "</strong>" + "<small><i> at </i></small>" + "<strong>" + time + "</strong>");                
+                </script>
+              </div>
+              <div class='activity-member-join'>
+                  {% for member in activity.member_join.all %}
+                      <a href='/{{member.user.username}}' rel="tooltip" title="{{member.user.first_name}} {{member.user.last_name}}" >
+                      {% if member.avatar %}
+                            <img src="{{member.avatar.url}}" width=30 height=30 />
+                      {% else %}
+                          {% if member.gender == "Female" %}
+                              <img src="{{STATIC_URL}}/img/female_icon.gif" width=30 height=30 />
+                          {% else %}
+                              <img src="{{STATIC_URL}}/img/male_icon.gif" width=30 height=30 />
+                          {% endif %}
+                      {% endif %}
+                </a> 
+                  {% endfor %}
+              </div>
+              {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      <div class='happening-activity'>
+        <div class='title'>
+          <h4> Happening </h4>
+        </div>
+        <div class='data'>  
+          {% for activity in happening_activities %}
+              {% if activity.privacy_status == 'Public' %}
+                <div class='activity-name'> 
+                    <a href='/activity/{{activity.pk}}' > 
+                        {{activity.name}}
+                    </a> 
+                </div> 
+                <div class='activity-time'> 
+                <script>
+                    var hour = parseInt({{activity.start_time.hour|safe}},10);
+                    var minute = parseInt({{activity.start_time.minute|safe}},10);
+                    var weekday = parseInt({{activity.start_time.date.weekday}},10);
+                    var day = parseInt({{activity.start_time.date.day}},10);
+                    var month = parseInt({{activity.start_time.date.month}},10);
+                    var year = parseInt({{activity.start_time.date.year}},10);
+                    var time = convert_24hr_to_AM_PM(year, month,day,hour,minute);
+                    var date = convert_date_name(year,month,day,weekday)
+                    document.write("<strong>" + date + "</strong>" + "<small><i> at </i></small>" + "<strong>" + time + "</strong>");  
+                </script>
+              </div>
+              <div class='activity-member-join'>
+                  {% for member in activity.member_join.all %}
+                      <a href='/{{member.user.username}}' rel="tooltip" title="{{member.user.first_name}} {{member.user.last_name}}" >
+                      {% if member.avatar %}
+                            <img src="{{member.avatar.url}}" width=30 height=30 />
+                      {% else %}
+                          {% if member.gender == "Female" %}
+                              <img src="{{STATIC_URL}}/img/female`_icon.gif" width=30 height=30 />
+                          {% else %}
+                              <img src="{{STATIC_URL}}/img/male_icon.gif" width=30 height=30 />
+                          {% endif %}
+                      {% endif %}
+                </a> 
+                  {% endfor %}
+              </div>
+              {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      <div class='past-activity'>
+        <div class='title'>
+          <h4> Past </h4>
+        </div>
+        <div class='data'>  
+          {% for activity in past_activities %}
+            {% if activity.privacy_status == 'Public' %}
+                <div class='activity-name'> 
+                    <a href='/activity/{{activity.pk}}' > 
+                        {{activity.name}}
+                    </a> 
+                </div> 
+                <div class='activity-time'> 
+                <script>
+                    var hour = parseInt({{activity.start_time.hour|safe}},10);
+                    var minute = parseInt({{activity.start_time.minute|safe}},10);
+                    var weekday = parseInt({{activity.start_time.date.weekday}},10);
+                    var day = parseInt({{activity.start_time.date.day}},10);
+                    var month = parseInt({{activity.start_time.date.month}},10);
+                    var year = parseInt({{activity.start_time.date.year}},10);
+                    var time = convert_24hr_to_AM_PM(year, month,day,hour,minute);
+                    var date = convert_date_name(year,month,day,weekday)
+                    document.write("<strong>" + date + "</strong>" + "<small><i> at </i></small>" + "<strong>" + time + "</strong>");                 
+                </script>
+              </div>
+              <div class='activity-member-join'>
+                  {% for member in activity.member_join.all %}
+                      <a href='/{{member.user.username}}' rel="tooltip" title="{{member.user.first_name}} {{member.user.last_name}}" >
+                      {% if member.avatar %}
+                            <img src="{{member.avatar.url}}" width=30 height=30 />
+                      {% else %}
+                          {% if member.gender == "Female" %}
+                              <img src="{{STATIC_URL}}/img/female_icon.gif" width=30 height=30 />
+                          {% else %}
+                              <img src="{{STATIC_URL}}/img/male_icon.gif" width=30 height=30 />
+                          {% endif %}
+                      {% endif %}
+                </a> 
+                  {% endfor %}
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

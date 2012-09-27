@@ -1,0 +1,154 @@
+html {
+	overflow-x: hidden;
+}
+
+body {
+	z-index: -2;
+	overflow-x: hidden;
+}
+
+ul {
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+textarea {
+	resize: none;
+}
+
+textarea:focus {
+	border: 1px solid #d6d6d6;
+}
+
+a,
+a:focus {
+	outline: 0;
+}
+
+.pull-right {
+	float: right;
+}
+
+.pull-left {
+	float: left;
+}
+
+#main_body {
+	width: 100%;
+	padding-bottom: 15px;
+	overflow: hidden;
+}
+
+.pointer-cursor {
+	cursor: pointer
+}
+
+.rotate-connection-icon {
+	transform:rotate(-180deg);
+	-ms-transform:rotate(-180deg); /* Internet Explorer */
+	-moz-transform:rotate(-180deg); /* Firefox */
+	-webkit-transform:rotate(-180deg); /* Safari and Chrome */
+	-o-transform:rotate(-180deg); /* Opera */
+}
+
+.rotate-arrow-icon {
+	transform:rotate(90deg);
+	-ms-transform:rotate(90deg); /* Internet Explorer */
+	-moz-transform:rotate(90deg); /* Firefox */
+	-webkit-transform:rotate(90deg); /* Safari and Chrome */
+	-o-transform:rotate(90deg); /* Opera */
+}
+
+.scroll-bar {
+	overflow: hidden;
+}
+
+.scroll-bar:hover {
+	overflow-y: auto;
+}
+
+.scroll-bar::-webkit-scrollbar {
+	width: 12px;
+}
+
+.scroll-bar::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+.scroll-bar::-webkit-scrollbar-thumb {
+	height: 20px;
+	background: rgba(0,0,0,0.3);
+	border-radius: 15px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+
+.connection-alert {
+	position: fixed;
+	top: 50px;
+	right: 0px;
+	height: 43px;
+	text-align: center;
+	z-index: 1000;
+}
+
+.connection-alert .connection-message{
+	background: url(http://db0dp9rjtl3zs.cloudfront.net/zaahah.com/v3/img/app/body/connection-alert-background.png) repeat-x;
+	color: white;
+	font-size: 11px;
+	font-weight: bold;
+	font-family: "arial";
+	height: 43px;
+	padding-top: 10px;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+.connection-alert a {
+	color: #c57418;
+}
+
+.connection-alert a:hover {
+	text-decoration: none
+}
+
+.alert-message {
+	width: 860px;
+	text-align: center;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 5px;
+	background-color: white;
+	border: 1px solid #cacaca;
+	opacity: 0.9;
+	min-height: 35px;
+}
+
+.alert-message .alert-content {
+	margin-top: 7px;
+	font-size:14px;
+}
+
+.alert-message img {
+	margin-right: 5px;
+}
+
+.alert-message .important-word {
+	font-weight: bold;
+}
+
+.save-search-bottom-shadow {
+	-webkit-box-shadow: 0 3px 5px -2px #ccc;
+	   -moz-box-shadow: 0 3px 5px -2px #ccc;
+			box-shadow: 0 3px 5px -2px #ccc;
+}
+
+.responsive-icon-effect {
+	background-color: #222f37;
+	border-bottom: 1px solid #415867;
+}
+
+.row-fluid {
+	width: 100%;
+}

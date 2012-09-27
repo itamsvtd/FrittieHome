@@ -1,0 +1,215 @@
+{% extends "base.html" %} 
+
+{% block content %}	
+    <div id="Content"> 
+        <div id='show_notice_message'></div>
+        <div id="location_header">
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <div class='span6'>
+                        <div class='title'>
+                            <h1> {{location.name}} </h1>
+                        </div>
+                    </div>
+                    <div class='span6'>
+                        <div class='toolbar pull-right'>
+                            {% if is_user_location %}
+                                <button id="edit_btn" class="btn btn-primary" href="#">
+                                    Edit
+                                </button>
+                            {% else %}
+                                {% if is_user_follow %}
+                                    <input type='button' id="follow_handler" class="btn btn-primary" href="#" value="Unfollow" />
+                                {% else %}
+                                    <input type='button' id="follow_handler" class="btn btn-primary" href="#" value="Follow" />
+                                {% endif %}
+                            {% endif %}
+                            <button id="recommend_btn" class="btn btn-primary" data-toggle="modal">
+                                Recommend Friends
+                            </button>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="main_area">
+            <div class="container-fluid">
+    	       <div class="row-fluid"> 
+    		      <div class="span6">
+    			     {% block location_area %} {% endblock %}
+    		      </div>
+    		      <div class="span3">
+    			     {% block location_review_area %} {% endblock %}
+    		      </div>
+    		      <div class="span3">
+    			     {% block location_activity_area %} {% endblock %}
+    		      </div>
+                </div>    		
+    	   </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block hidden_modal %}
+<!-- Define value here for use in javascript -->
+{% if member_login %}
+    <input type='hidden' id='check_login' value="True">
+    <input type='hidden' id='member_login_username' value='{{member_login.user.username}}'>
+{% else %}
+    <input type='hidden' id='check_login' value='False'>
+{% endif %}
+<input type='hidden' id='location_id' value='{{location.pk}}'/>
+<input type='hidden' id='total_friend' value='{{friends|length}}' />
+<input type='hidden' id='current_comment' val=''>
+
+<!-- Modal for recommend friend function, open this div 
+     when user click on Recommend Friend button -->
+<div class="modal hide" id="modal_friend">
+  <div class="modal-header">
+    <h3>Recommend Friends</h3>
+  </div>
+  <div class="modal-body">
+    {% if friends %}
+    <div class='friend-search'>
+        <div class='row-fluid'>
+            <div class='search-input'> 
+                <input type="text" class="inputtext textInput" placeholder="Search all friends" value="Search all friends" aria-label="Search all friends"> 
+            </div>
+        </div>
+    </div>
+    <div class='friend-list'>
+        <ul class='friend-list-data'>
+            {% for friend in friends %}
+                <li class='friend-item-data'>
+                    <lable class='checkbox'>
+                        <div class='friend-check-item-area'>
+                            <input type='checkbox' class='checkbox-friend' name='friend-{{friend.pk}}'>
+                            <div class='friend-avatar'>
+                                <img src="{{MEDIA_URL}}{{friend.avatar}}" width=60 height=60 />
+                            </div>
+                            <div class='friend-name'>
+                                <p>{{friend.user.first_name}} {{friend.user.last_name}}</p>
+                            </div>
+                        </div>
+                    </label>        
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+    <div class='friend-add-suggest'>
+        <p> You have no friend in your friends' list. <a href='/friends/find'>Find some</a></p>
+    </div>
+    {% endif %}
+  </div>
+  <div class="modal-footer">
+    {% if friends %}
+        <a href='#' class="btn btn-primary disabled" id='send_recommend_btn'>Recommend</a>
+    {% endif %}
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+  </div>
+</div>
+
+
+<div class="modal hide" id="modal_remove_comment">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+  </div>
+  <div class="modal-body">
+        <p> Are you sure you want to remove this comment? </p>
+  </div>
+  <div class="modal-footer">
+     <a href='#comment_box' class="btn btn-primary" id='final_remove_comment_btn' onClick='final_remove_comment()'>Remove</a>
+     <a href="#comment_box" class="btn" data-dismiss="modal">Cancel</a>
+  </div>
+</div>
+
+<div class="modal hide" id="modal_create_activity">
+    <div class='modal-header create-activity-title'>
+        <h3> Create your activity </h3>
+    </div>
+    <form action="" method="POST" id='create_activity_form' enctype="multipart/form-data"> {% csrf_token %}
+    <div class="modal-body create-activity-area">
+        <input type='hidden' name='location' value='{{location.id}}' >
+        <table class='create-activity-table'>
+            <tr class='data-row activity-name-row'>
+                <th class='data-label'>
+                    <label for='activity_name'>Name</label>
+                </th>
+                <td class='data-content'>
+                    <input type='text' name='activity_name' value='' placeholder='ex: Welcome new student' />
+                </td>
+            </tr>
+            <tr class='data-row activity-description-row'>
+                <th class='data-label'>
+                    <label for='activity_description'>Description</label>
+                </th>
+                <td class='data-content'>
+                    <textarea name='activity_description' placeholder='Add some info'></textarea>
+                </td>
+            </tr>
+            <tr class='data-row activity-starttime-row'>
+                <th class='data-lable'>
+                    <label for='activity_starttime'>From</label>
+                </th>
+                <td class='data-content'>
+                    <input type='text' name='activity_starttime' id='activity_starttime' placeholder='Start time'>
+                </td>
+            </tr>
+            <tr class='data-row activity-endtime-row'>
+                <th class='data-lable'>
+                    <label for='activity_endtime'>To</label>
+                </th>
+                <td class='data-content'>
+                    <input type='text' name='activity_endtime' id='activity_endtime' placeholder='End time'>
+                </td>
+            </tr>
+            <tr class='data-row activity-type-row'>
+                <th class='data-label'>
+                    <label for='activity_type'>Type</label>
+                </th>
+                <td class='data-content'>
+                    <select name='activity_type'>
+                        <option value="public">Public</option>
+                        <option value="invite_only">Invite Only</option>
+                        <option value="anonymous">Anonymous</option>
+                        <option value="blind_date">Blind Date</option>
+                    </select>
+                    <div class='activity-type-description'>
+                        Public activity is open to everyone. All people join in this will be displayed their info
+                    </div>
+                </td>
+            </tr>
+            <tr class='data-row activity-limit-row'>
+                <th class='data-label'>
+                    <label for='activity_limit'>Limit</label>
+                </th>
+                <td class='data-content'>
+                    <input type='checkbox' class='checkbox-activity-limit' name='activity_unlimited' value='Unlimited'>  Unlimited
+                    <div class='activity-limit-value'>
+                        <input type='number' min='1' name='activity_limit' value='10'> people
+                    </div>
+                </td>
+            </tr>
+            <tr class='data-row activity-age-range-row'>
+                <th class='data-label'> 
+                    <label for='activity_age_range'>Age</label>
+                </th>
+                <td class='data-content'>
+                    From <input type='number' name='activity_age_range_from' min='18' max='99' value='18'> 
+                    To <input type='number' name='activity_age_range_to' min='18' max='99' value='30'>
+                </td> 
+            </tr>
+
+        </table>
+    </div>
+    <div class="modal-footer">
+        <input type='submit' name='create_activity_btn' class="btn btn-primary" id='final_create_activity_btn' value='Create'>
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+    </div>
+    </form>
+</div>
+
+{% endblock %}
+

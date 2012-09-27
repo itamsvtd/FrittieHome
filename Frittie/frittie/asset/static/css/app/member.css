@@ -1,0 +1,58 @@
+#modal_upload_photo {
+	position: absolute;
+	left:500px;
+	top:350px;
+	width:800px;
+	height: 500px;
+}
+
+#modal_upload_photo .modal-footer {
+	position:absolute;
+	bottom:15px;
+	width:720px;
+}
+
+#modal_choose_location select {
+	width:100px;
+}
+
+#create_activity_form input[name=activity_age_range_from] {
+	width:30px;
+	height: 15px;
+}
+
+#create_activity_form input[name=activity_age_range_to] {
+	width:30px;
+	height:15px;
+}
+
+#create_activity_form .activity-limit-value input{
+	width:30px;
+	height:15px;
+}
+
+.data-error {
+	color: red;
+}
+
+.create-activity-table th {
+	vertical-align:text-top; 
+	text-align: center;
+}
+
+.create-activity-table .data-content {
+	width:150px;
+	padding-left:20px;
+}
+
+.create-activity-table .data-error {
+	padding-left:20px;
+	vertical-align:text-top; 
+}
+
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }

@@ -1,0 +1,109 @@
+{% extends "base.html" %} 
+
+{% block content %}	
+    <div id="Content">
+    	<div id='show_notice_message'></div>
+    	<div id='action_area'>
+    		<div class='container-fluid'>
+    			<div class='row-fluid'>
+    				<div class='span1'></div>
+    				<div class='span10'>
+    					{% block button_area %} {% endblock %}
+    				</div>
+    				<div class='span1'></div>
+    			</div>
+    		</div>
+    	</div>
+    	<div id='profile_area'>
+        	<div class='container-fluid'>
+        		<div class='row-fluid'>
+        			<div class='span1'></div>
+            		<div class='span6'>	
+            			{% block profile_area %} {% endblock %}
+            		</div>
+            		<div class='span4'>
+            			{% block friends_area %} {% endblock %}
+            		</div>
+            		<div class='span1'></div>
+          		</div>
+        	</div>
+      	</div>
+    	<div id='main_area'>
+    		<div class='container-fluid'>
+                {% if member_view.privacy_status == 'Public' or is_friend %}
+    			<div class='row-fluid'>
+    				<div class='span4'></div>
+    				<div class='span4'>
+    					{% block toolbar_area %} {% endblock %}
+    				</div>
+    				<div class='span4'></div>
+    			</div>
+    			<div class='row-fluid'>
+    				<div class='span1'></div>
+    				<div class='span7'>
+    					{% block main_area %} {% endblock %}
+    				</div>
+    				<div class='span3'>
+    					{% block recent_stream_area %} {% endblock %}
+    				</div>
+    				<div class='span1'></div>
+    			</div>
+                {% else %}
+                    <div id='private_user_notice'>
+                        <div class='row-fluid'>
+                            <div class='span3'></div>
+                            <div class='span8'>
+                                <h2> This user has set profile to private. Only friends can see it
+                            </div>
+                            <div class='span1'></div>
+                        </div>
+                    </div>
+                {% endif %}
+    		</div>
+      </div> 
+    </div>
+{% endblock %}
+
+{% block hidden_modal %}
+	{% if member_login %}
+    	<input type='hidden' id='check_login' value="True" />
+    	<input type='hidden' id='member_login_username' value="{{member_login.user.username}}" />
+	{% else %}
+    	<input type='hidden' id='check_login' value='False'>
+	{% endif %}
+	<input type='hidden' id='member_view_username' value='{{member_view.user.username}}' />
+	<input type='hidden' id='total_friend' value='{{friends|length}}' />
+    <input type='hidden' id='page_type' value='normal_page' />
+
+    
+    <div class="modal hide" id="modal_send_message">
+            <!--
+            <button type="button" class="close" data-dismiss="modal">×</button>
+            -->
+        <div class="modal-body">
+            <!--
+            <label for="message-subject">Subject</label> <input type="text" class="inputtext textInput" value="" /></br>
+            !--> 
+             <label for="message-content">Message</label><textarea id='message_box' rows=5 cols=20 ></textarea>
+        </div>
+        <div class="modal-footer">
+            <a href='#' class="btn btn-primary" id='send_message_btn'>Send</a>
+            <a href="#" class="btn" data-dismiss="modal">Close</a>
+        </div>
+    </div>
+
+    <div class="modal hide" id="modal_unfriend">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">×</button>
+        </div>
+    <div class="modal-body">
+        <p> Are you sure you want to unfriend this person? </p>
+    </div>
+    <div class="modal-footer">
+        <a href='#' class="btn btn-primary" id='final_unfriend_btn' onClick='handle_unfriend_complete()'>Unfriend</a>
+        <a href="#" class="btn" data-dismiss="modal">Cancel</a>
+    </div>
+</div>
+
+{% endblock %}
+

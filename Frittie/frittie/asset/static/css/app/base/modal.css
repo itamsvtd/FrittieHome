@@ -1,0 +1,194 @@
+#create_community_modal {
+	background-color: rgba(0,0,0,0.3);
+	border-radius: 5px;
+	position: fixed;
+	top: 6%;
+	left: 37%;
+	height: auto;
+	width: 366px;
+	z-index: 1050;
+}
+
+#create_community_modal .create-community-section {
+	background-color: #fcfcfc;
+	margin: 8px;
+}
+
+#create_community_modal .create-community-header {
+	height: 55px;
+	width: 100%;
+	border-bottom: 1px solid #bababa;
+	background: url('http://db0dp9rjtl3zs.cloudfront.net/zaahah.com/v3/img/app/body/create-community-header-background.png');
+}
+
+#create_community_modal .create-community-header .header-text {
+	font-size: 30px;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", sans-serif;
+	margin-top: 18px;
+	margin-left: 20px;
+}
+
+#create_community_modal .create-community-header .close-form {
+	height: 100%;
+	width: 55px;
+	background-color: #e2e2e2;
+	text-align: center;
+}
+
+#create_community_modal .create-community-header .close-form img {
+	margin-top: 20px;
+}
+
+#create_community_modal .text-label {
+	font-weight: bold;
+	font-size: 12px;
+	margin-bottom: 7px;
+}
+
+#create_community_form {
+	margin: 20px 20px 15px 20px;
+}
+
+#create_community_form a {
+	color: #333;
+	font-size:12px;
+	font-style: italic;
+	height: 100%;
+	width: 100%;
+}
+
+#create_community_form a:hover {
+	text-decoration: none
+}
+
+#create_community_form .wrapper {
+	padding-top: 5px;
+	padding-left: 7px;
+}
+
+#create_community_form .title-data,
+#create_community_form .type-profile-data,
+#create_community_form .tags-data,
+#create_community_form .description-data {
+	margin-bottom: 10px;
+}
+
+
+#create_community_form .community-type,
+#create_community_form .author-profile {
+	float: left;
+	margin-right: 20px;
+}
+
+#create_community_form .type-input,
+#create_community_form .author-profile-input {
+	margin-top: 5px;
+	background-color: white;
+	border-radius: 3px;
+	border: 1px solid #d6d6d6;
+	width: 110px;
+	height: 30px;
+}
+
+#create_community_form .type-input img.arrow-icon,
+#create_community_form .author-profile-input img.arrow-icon {
+	float: right;
+	margin-top: 6px;
+	margin-right: 11px;
+}
+
+#create_community_form .type-input img.light-divider,
+#create_community_form .author-profile-input img.light-divider {
+	float: right;
+	margin-top: -3px;
+	margin-right: 12px;
+}
+
+#community_type_option,
+#author_profile_option {
+	position: absolute;
+	top: 222px;
+	min-width: 50px;
+	width: 110px;
+	border-radius: 0px;
+	padding: 0px;
+	margin: 0px;
+	border: 1px solid #d6d6d6;
+	border-bottom: 0px;
+	-webkit-box-shadow: none;
+	   -moz-box-shadow: none;
+			box-shadow: none;
+}
+
+#community_type_option {
+	left: 28px;
+}
+
+#author_profile_option {
+	left: 160px;
+}
+
+#community_type_option li,
+#author_profile_option li {
+	height: 24px;
+	padding: 5px 0px 0px 8px;
+	font-size: 12px;
+	border-bottom: 1px solid #d6d6d6;
+}
+
+#community_type_option li:hover,
+#author_profile_option li:hover {
+	background-color: #cacaca;
+}
+
+#create_community_title_input {
+	width: 292px;
+	border: 1px solid #d6d6d6;
+	font-size: 12px;
+}
+
+#create_community_tags_input,
+#create_community_description_textbox {
+	width: 292px;
+	border-radius: 2px;
+	border: 1px solid #d6d6d6;
+	font-style: italic;
+	color: #cacaca;
+}
+
+#create_community_tags_input::-webkit-input-placeholder,
+#create_community_tags_input::-moz-placeholder,
+#create_community_tags_input::-ms-input-placeholder,
+#create_community_description_textbox::-webkit-input-placeholder,
+#create_community_description_textbox::-moz-placeholder,
+#create_community_description_textbox::-ms-input-placeholder{
+	font-style: italic;
+	font-size: 12px;
+	color: #cacaca;
+}
+
+
+#create_community_form input[type=text] {
+	height: 30px;
+	padding: 0px 0px 2px 15px;
+}
+
+#create_community_description_textbox {
+	height: 77px;
+	padding: 8px 0px 0px 15px;
+}
+
+#create_community_form .share-action {
+	margin-bottom: 25px;
+}
+
+#create_community_form .share-action .way-share-data .share-choice{
+	float: left;
+	margin-right: 13px;
+	font-size: 12px;
+}
+
+#create_community_form .share-action input[type=checkbox] {
+	margin-top: 0px;
+	margin-right: 2px;
+}

@@ -1,0 +1,9 @@
+{% load i18n %}	
+	<li class='friend-activity-stream-item-data' onclick="window.location.href='/location/{{location.id}}'">  
+		<div class='friends-activity-stream-content'>
+			<a href='/{{member_login.user.username}}'> 
+				<img src="{{MEDIA_URL}}{{member_login.avatar.url}}" width=25 height=25 />
+				<b>{{member_login.user.first_name}} {{member_login.user.last_name}} </b>
+			</a> just followed <a href='/location/{{location.id}}' > {{location.name}} </a>
+		</div> 
+	</li>

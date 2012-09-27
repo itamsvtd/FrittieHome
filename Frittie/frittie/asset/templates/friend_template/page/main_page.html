@@ -1,0 +1,133 @@
+{% extends "friend_template/friend_base.html" %}
+
+{% block script %} 
+	<link href="{{ STATIC_URL }}css/facebook.css" type="text/css" rel="stylesheet" media="all" />
+	{% include 'django_facebook/_facebook_js.html' %}
+	<link rel="stylesheet" href="{{STATIC_URL}}css/app/friend.css" type="text/css" />
+	<script type="text/javascript" src="{{STATIC_URL}}js/app/friend/function.js"></script>
+	<script type="text/javascript" src="{{STATIC_URL}}js/app/friend/main.js"></script>
+{% endblock %}
+
+{% block import_friends_area %}
+<div id='import_friends_area'>
+	<div class='import-friend-header'>
+		<h2> Import your Facebook Friend
+	</div>
+	<div class='import-friend-content'>
+		<div class='title'>
+			You don't have any facebook friend in your account. Please import it to invite your friend join Frittie
+		</div>
+		<div class='content'>
+			<form action="{% url facebook_connect %}?facebook_login=1&next=/friends/find" method="post">
+        		<input type="hidden" value="{{ request.path }}" name="next" />      
+        		<div id="facebook_login_js">
+        		<input onclick="F.connect(this.parentNode.parentNode); return false;" type="image" src="http://e.fashiocdn.com/images/b_signin_facebook_small.png" />
+    		</form>
+    	</div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block invite_friends_area %} 
+<div id='invite_friends_area'>
+	<div class='invite-friend-header'>
+	</div>
+	<div class='invite-friend-content'>
+		<div class='title'>
+		</div>
+		<div class='toolbar'>
+			<!--
+			<input type='button' id='invite_fb_friend_btn' value='Invite'/>
+			-->
+			<div id="fb-root"></div>
+			<script src="http://connect.facebook.net/en_US/all.js"></script>
+			<p><input type="button" onclick="sendRequestViaMultiFriendSelector(); return false;" value="Invite your friend to join Frittie" /></p>
+
+			<div id="response"></div>
+			<script>
+				FB.init({
+    				appId  : '265377323561995',
+    				status : true,
+    				cookie : true,
+    				oauth: true
+				});
+
+				function sendRequestViaMultiFriendSelector() {
+    				FB.ui({method: 'apprequests',
+        				message: 'Welcome to Frittie'
+    				}, requestCallback);
+				}
+
+				function requestCallback(response) {
+    				// Handle callback here
+    				if (response.request && response.to) {
+        				var request_ids = [];
+        				for(i=0; i<response.to.length; i++) {
+            				var temp = response.request + '_' + response.to[i];
+            				var friend_id = response.to[i];
+            				request_ids.push(temp);
+
+            				//send message in here
+            				var opts = {
+                				message : 'Message',
+                				name : 'Name',
+                				link : 'http://www.facebook.com/pages/xxxxx/xxxxxxxxxxxxxxx',
+                				description : 'Description here',
+                				picture : 'http://www.domain.com/img/some.jpg'
+            				};
+
+            				FB.api('/'+friend_id+'/feed', 'post', opts, function(response) {
+                				if (!response || response.error) {
+                    				// This is the error I am getting:
+                    				alert('Error occured');
+                				} else {
+                    				alert('Post ID: ' + response.id);
+                				}
+            				});
+            			// end send message 
+        				}
+        				var requests = request_ids.join(',');       
+    				} else {
+        				alert("Didn't send recommendation to friends");
+    				}
+				}
+			</script>
+		</div>
+		<div class='content'>
+			<ul class='invite-friend-list'>
+				{% for friend in invite_friends %}
+					<li class='invite-friend-item'>
+						<input type='checkbox' class='checkbox-invite-friend' name='friend-{{friend.facebook_id}}'>
+						<div class='invite-friend-avatar'>
+							<img src='https://graph.facebook.com/{{ friend.facebook_id }}/picture' width=50 height=50>
+						</div>
+						<div class='invite-friend-name'>
+							{{ friend.name }}
+						</div>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+{% block suggest_friends_area %} 
+<div id='suggest_friends_area'>
+	<div class='suggest-friend-header'>
+	</div>
+	<div class='suggest-friend-content'>
+		<div class='title'>
+		</div>
+		<div class='toolbar'>
+		</div>
+		<div class='content'>
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+
+

@@ -1,0 +1,93 @@
+Function frittie.app.location.ajax.unfollow_location is callable
+argv {'location_id': u'1'}
+response: {"username": "vthanhduc"}
+Function frittie.app.location.ajax.follow_location is callable
+argv {'location_id': u'1'}
+response: {"username": "vthanhduc", "name": "Duc Vu", "avatar": "http://localhost:8000/asset/media/default/img/male_avatar.gif"}
+Function frittie.app.photo.ajax.upload_activity_photo is callable
+argv {'activity_id': 1}
+response: {}
+Function frittie.app.photo.ajax.upload_activity_photo is callable
+argv {'activity_id': u'1'}
+response: {}
+Function frittie.app.photo.ajax.update_streams is callable
+argv {}
+response: {}
+Function frittie.app.location.ajax.unfollow_location is callable
+argv {'location_id': u'1'}
+response: {"username": "vthanhduc"}
+Function frittie.app.location.ajax.follow_location is callable
+argv {'location_id': u'1'}
+response: {"username": "vthanhduc", "name": "Duc Vu", "avatar": "http://localhost:8000/asset/media/default/img/male_avatar.gif"}
+Function frittie.app.photo.ajax.upload_activity_photo is callable
+argv {'activity_id': u'1'}
+response: {}
+Function frittie.app.photo.ajax.update_streams is callable
+argv {}
+response: {}
+Function frittie.app.location.ajax.unfollow_location is callable
+argv {'location_id': u'1'}
+response: {"username": "dangnguyen_1712"}
+Function frittie.app.location.ajax.follow_location is callable
+argv {'location_id': u'1'}
+response: {"username": "dangnguyen_1712", "name": "Dang Nguyen", "avatar": "http://localhost:8000/asset/media/default/img/male_avatar.gif"}
+Function frittie.app.message.ajax.add_message is callable
+argv {'username': u'vthanhduc', 'message': u'dfs\n'}
+response: {"message": "Success"}
+Function frittie.app.message.ajax.add_message is callable
+argv {'username': u'vthanhduc', 'message': u'dasf'}
+response: {"message": "Success"}
+Function frittie.app.location.ajax.add_comment is callable
+argv {'comment_content': u'sdfsarf', 'location_id': u'1'}
+response: {"member": {"username": "dangnguyen_1712", "first_name": "Dang", "last_name": "Nguyen", "avatar": "http://localhost:8000/asset/media/default/img/male_avatar.gif"}, "content": "<p>sdfsarf</p>", "comment_id": 1, "date": "a few seconds ago"}
+Function frittie.app.location.ajax.edit_comment is callable
+argv {'comment_content': u'sdfsarf', 'comment_id': u'1'}
+response: {"member": {"username": "dangnguyen_1712", "first_name": "Dang", "last_name": "Nguyen", "avatar": "http://localhost:8000/asset/media/default/img/male_avatar.gif"}, "content": "<p>sdfsarf</p>", "comment_id": "1", "date": "a few seconds ago"}
+Function frittie.app.location.ajax.edit_comment is callable
+argv {'comment_content': u'sdfsarf', 'comment_id': u'1'}
+response: {"member": {"username": "dangnguyen_1712", "first_name": "Dang", "last_name": "Nguyen", "avatar": "http://localhost:8000/asset/media/default/img/male_avatar.gif"}, "content": "<p>sdfsarf</p>", "comment_id": "1", "date": "a few seconds ago"}
+Function frittie.app.location.ajax.add_comment is callable
+argv {'comment_content': u'dfsd', 'location_id': u'1'}
+response: {"member": {"username": "dangnguyen_1712", "first_name": "Dang", "last_name": "Nguyen", "avatar": "http://localhost:8000/asset/media/default/img/male_avatar.gif"}, "content": "<p>dfsd</p>", "comment_id": 2, "date": "a few seconds ago"}
+Function frittie.app.location.ajax.remove_comment is callable
+argv {'comment_id': 2}
+response: {"comment_id": 2}
+Function frittie.app.location.ajax.remove_comment is callable
+argv {'comment_id': 1}
+response: {"comment_id": 1}
+Function frittie.app.location.ajax.add_comment is callable
+argv {'comment_content': u'fsd', 'location_id': u'1'}
+response: {"member": {"username": "dangnguyen_1712", "first_name": "Dang", "last_name": "Nguyen", "avatar": "http://localhost:8000/asset/media/default/img/male_avatar.gif"}, "content": "<p>fsd</p>", "comment_id": 1, "date": "a few seconds ago"}
+Function frittie.app.location.ajax.add_comment is callable
+argv {'comment_content': u'fgfd', 'location_id': u'1'}
+response: {"member": {"username": "dangnguyen_1712", "first_name": "Dang", "last_name": "Nguyen", "avatar": "http://localhost:8000/asset/media/default/img/male_avatar.gif"}, "content": "<p>fgfd</p>", "comment_id": 2, "date": "a few seconds ago"}
+Function frittie.app.location.ajax.add_comment is callable
+argv {'comment_content': u'hgfj', 'location_id': u'1'}
+response: {"member": {"username": "dangnguyen_1712", "first_name": "Dang", "last_name": "Nguyen", "avatar": "http://localhost:8000/asset/media/default/img/male_avatar.gif"}, "content": "<p>hgfj</p>", "comment_id": 3, "date": "a few seconds ago"}
+Function frittie.app.location.ajax.add_comment is callable
+argv {'comment_content': u'yutu', 'location_id': u'1'}
+response: {"member": {"username": "dangnguyen_1712", "first_name": "Dang", "last_name": "Nguyen", "avatar": "http://localhost:8000/asset/media/default/img/male_avatar.gif"}, "content": "<p>yutu</p>", "comment_id": 4, "date": "a few seconds ago"}
+Function frittie.app.location.ajax.add_comment is callable
+argv {'comment_content': u'jhj', 'location_id': u'1'}
+response: {"member": {"username": "dangnguyen_1712", "first_name": "Dang", "last_name": "Nguyen", "avatar": "http://localhost:8000/asset/media/default/img/male_avatar.gif"}, "content": "<p>jhj</p>", "comment_id": 5, "date": "a few seconds ago"}
+Function frittie.app.location.ajax.add_comment is callable
+argv {'comment_content': u'hjgk', 'location_id': u'1'}
+response: {"member": {"username": "dangnguyen_1712", "first_name": "Dang", "last_name": "Nguyen", "avatar": "http://localhost:8000/asset/media/default/img/male_avatar.gif"}, "content": "<p>hjgk</p>", "comment_id": 6, "date": "a few seconds ago"}
+Function frittie.app.location.ajax.remove_comment is callable
+argv {'comment_id': 1}
+response: {"comment_id": 1}
+Function frittie.app.location.ajax.remove_comment is callable
+argv {'comment_id': 4}
+response: {"comment_id": 4}
+Function frittie.app.location.ajax.remove_comment is callable
+argv {'comment_id': 5}
+response: {"comment_id": 5}
+Function frittie.app.location.ajax.remove_comment is callable
+argv {'comment_id': 3}
+response: {"comment_id": 3}
+Function frittie.app.location.ajax.remove_comment is callable
+argv {'comment_id': 2}
+response: {"comment_id": 2}
+Function frittie.app.location.ajax.remove_comment is callable
+argv {'comment_id': 6}
+response: {"comment_id": 6}

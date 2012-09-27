@@ -1,0 +1,9 @@
+{% load i18n %}	
+	<li class='friend-activity-stream-item-data' onclick="window.location.href='/{{member2.user.username}}'" >  
+		<div class='friends-activity-stream-content'>
+			<a href='/{{member1.user.username}}'> 
+				<img src="{{MEDIA_URL}}{{member1.avatar.url}}" width=25 height=25 />
+				<b>{{member1.user.first_name}} {{member1.user.last_name}} </b>
+			</a> is friend with <a href='/{{member2.user.username}}' > {{member2.user.first_name}} {{member2.user.last_name}} </a>
+		</div> 
+	</li>

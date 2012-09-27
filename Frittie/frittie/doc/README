@@ -1,0 +1,58 @@
+---------------------------------
+-								-
+-		Author: Dang Nguyen		-	
+-								-
+---------------------------------
+
+1/ Project layout
+	_app:								*App using in the project
+		_activity
+		_api
+		_info
+		_location
+		_main
+		_member
+		_notify
+		_search
+	_asset								*Include media for upload file, static and template
+		_media
+			_uploads
+				_file
+				_img
+		_static							*Static file include css,image and javascript file
+			_css						*Both css and javascript will have two separate
+				_app					*folder: app for the internal app and plugin for
+				_plugins				*external plugin. All of the apps will have 3
+			_img						*javascript file: function.js for all function using
+			_js							*in that app, load.js for init function when call
+				_app					*that page, and main.js for controll all action and
+				_plugins				*interaction between user and the site
+			_libs
+				_bootstrap				*libs include all the external js library. There are
+				_jquery					*4 libs in the folder but currently I just focus on 
+				_knockout				*using 2 of them which are boostrap and jquery
+				_zurb_foundation
+		_templates						*Each app template will have a app_base.html which
+			_activity_template			*inherit from the base.html. Some app will have 
+			_info_template				*two separate page which are admin page for 
+			_location_template			*administration and normal page, some will not
+			_main_template				
+			_member_template
+			_search_template
+			_404.html
+			_500.html
+			_base.html
+	_db									*Database file put here
+	_doc								*All the document related to the project
+	_fixtures							*Data exported from database as json file
+	_helper 							*Helper function for the app. Common_helper
+		_activity_helper				*include all the common function which can be used 
+		_common_helper					*for any app. Settings_helper define all constant
+		_location_helper				*using in the app
+		_member_helper
+		_settings_helper
+	_vendor								*Other third-party software. Currently, it include
+										*apache-solr as a backend search engine
+
+
+

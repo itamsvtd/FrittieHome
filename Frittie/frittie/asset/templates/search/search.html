@@ -1,0 +1,37 @@
+{% extends 'search/search_base.html' %}
+
+{% block content %}
+        {% if query %}
+            <h3>Results</h3>
+
+            {% for result in page.object_list %}
+                <p>
+                    <!-- This is for location object -->
+                    {% if result.object.city %}
+                        <a href="/location/{{ result.object.pk }}">{{ result.object.name }}</a>
+                    {% endif %}
+                    <!-- This is for member object -->
+                    {% if result.object.gender %}
+                        <a href='/{{result.object.user.username}}'>{{result.object.user.first_name}} {{result.object.user.last_name}}</a>
+                    {% endif %}
+                    <!-- This is for activity object -->
+                    {% if result.object.start_time %}
+                        <a href='/activity/{{result.object.pk}}'>{{result.object.name}} </a>
+                    {% endif %}
+                </p>
+            {% empty %}
+                <p>No results found.</p>
+            {% endfor %}
+
+            {% if page.has_previous or page.has_next %}
+                <div>
+                    {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; Previous{% if page.has_previous %}</a>{% endif %}
+                    |
+                    {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}Next &raquo;{% if page.has_next %}</a>{% endif %}
+                </div>
+            {% endif %}
+        {% else %}
+            {# Show some example queries to run, maybe query syntax, something else? #}
+        {% endif %}
+    </form>
+{% endblock %}

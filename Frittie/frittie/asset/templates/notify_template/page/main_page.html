@@ -1,0 +1,61 @@
+{% extends "notify_template/notify_base.html" %} 
+
+{% block script %} 
+<!-- Always load 4 app css and js file -->
+<link rel="stylesheet" href="{{STATIC_URL}}css/app/notify.css" type="text/css" />
+<script type="text/javascript" src="{{STATIC_URL}}js/app/notify/function.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/app/notify/main.js"></script>
+{% endblock %}
+
+{% block title_toolbar_area %}
+<div id='title_toolbar_area'>	
+	<div class='notification-pagination pull-right'>
+		<ul class='pager'>
+			{% if current_page == 1 %}
+				<li class='disabled'>
+					<a href='#'>Previous </a>
+				</li>
+			{% else %}
+				<li>
+					<a href='/buzz/?page={{current_page|add:"-1"}}'>Previous</a>
+				</li>
+			{% endif %}
+			{% if current_page == last_page %}
+				<li class='disabled'>
+					<a href='#'>Next </a>
+				</li>
+			{% else %}
+				<li>
+					<a href='/buzz/?page={{current_page|add:"1"}}'>Next</a>
+				</li>
+			{% endif %}		
+		</ul>
+	</div>
+	<div class='notification-title'>
+		<h2> Notifications </h2>
+	</div>
+</div>
+{% endblock %}
+
+{% block notify_area %}
+<div id='notify_area'>
+	<ul class='notify-list-data'>
+		{% for notify in notifies %}
+			<li class='notify-item-data' id='notify-{{notify.pk}}'>
+				<div class='notify-from-member'>
+					<a href='/{{notify.notify_from.user.username}}' >
+						<img src='{{MEDIA_URL}}{{notify.notify_from.avatar}}' width=70 height=70 />
+						{{notify.notify_from.user.first_name}} {{notify.notify_from.user.last_name}}
+					</a>
+				</div>
+				<div class='notify-content'>
+					{{notify.content|safe}}
+				</div>
+				<div class='notify-time'>
+					{{notify.elapse_time}}
+				</div>
+			</li>
+		{% endfor %}
+	</ul>
+</div>
+{% endblock %}

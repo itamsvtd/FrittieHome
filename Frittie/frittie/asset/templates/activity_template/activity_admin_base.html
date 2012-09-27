@@ -1,0 +1,161 @@
+{% extends "base.html" %} 
+
+{% load verbatim %}
+
+{% block init_static_file %}
+        <link rel="icon" href="{{STATIC_URL}}img/ico/favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="{{STATIC_URL}}img/ico/favicon.ico" type="image/x-icon" />
+        <link rel="stylesheet" href="{{STATIC_URL}}css/styles.css" type="text/css" />
+        <link rel="stylesheet" href="{{STATIC_URL}}libs/bootstrap/css/bootstrap-responsive.min.css" type="text/css" />
+        <link rel="stylesheet" href="{{STATIC_URL}}libs/bootstrap/css/bootstrap.min.css" type="text/css" />
+        <link rel="stylesheet" href="{{STATIC_URL}}libs/jquery/css/ui-lightness/jquery-ui-1.8.20.custom.css" type="text/css" />
+        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/themes/base/jquery-ui.css" id="theme">
+        <link rel="stylesheet" href="{{STATIC_URL}}css/plugins/jquery_file_upload/jquery.fileupload-ui.css">
+        <script type="text/javascript" src="{{STATIC_URL}}libs/jquery/js/jquery-1.7.2.min.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}libs/jquery/js/jquery-ui-1.8.20.custom.min.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}libs/knockout/knockout-2.1.0.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}libs/bootstrap/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}js/app/common.js"></script>
+        <script type="text/javascript">
+        var autocomplete_data = {{autocomplete_data|safe}};
+        </script>
+        <script type="text/javascript" src="{{STATIC_URL}}js/app/base_load.js"></script>
+    {% endblock %}
+
+{% block content %} 
+    <div id="Content">
+      <div id='show_notice_message'></div>
+      <div id='toolbar'>
+        <div class='container-fluid'>
+          <div class='row-fluid'>
+              {% block toolbar %} {% endblock %}
+          </div>
+        </div>
+      </div>
+        <div id='main_area'>
+            <div class='container-fluid'>
+                <div class='row-fluid'>
+                    <div class='span2'>
+                        {% block member_area %} {% endblock %}
+                    </div>
+                    <div class='span5'>
+                        {% block activity_area %} {% endblock %}
+                    </div>
+                    <div class='span5'>
+                        {% block location_area %} {% endblock %}
+                    </div> 
+                </div>
+            </div>
+      </div> 
+    </div>
+{% endblock %}
+
+{% block hidden_modal %}
+{% if member_login %}
+    <input type='hidden' id='check_login' value="True">
+    <input type='hidden' id='member_login_username' value="{{member_login.user.username}}">
+{% else %}
+    <input type='hidden' id='check_login' value='False'>
+{% endif %}
+<input type='hidden' id='activity_id' value='{{activity.pk}}'/>
+<input type='hidden' id='total_friend' value='{{friends|length}}' />
+<input type='hidden' id='current_comment' val=''>
+<input type='hidden' id='page_type' value='normal_page' />
+
+<!-- Modal for recommend friend function, open this div 
+     when user click on Recommend Friend button -->
+<div class="modal hide" id="modal_friend">
+  <div class="modal-header">
+    <h3>Recommend Friends</h3>
+  </div>
+  <div class="modal-body">
+    {% if friends %}
+    <div class='friend-search'>
+        <div class='row-fluid'>
+            <div class='search-input'> 
+                <input type="text" class="inputtext textInput" placeholder="Search all friends" value="Search all friends" aria-label="Search all friends"> 
+            </div>
+        </div>
+    </div>
+    <div class='friend-list'>
+        <ul class='friend-list-data'>
+            {% for friend in friends %}
+                <li class='friend-item-data'>
+                    <lable class='checkbox'>
+                        <div class='friend-check-item-area'>
+                            <input type='checkbox' class='checkbox-friend' name='friend-{{friend.pk}}'>
+                            <div class='friend-avatar'>
+                                <img src="{{MEDIA_URL}}{{friend.avatar}}" width=60 height=60 />
+                            </div>
+                            <div class='friend-name'>
+                                <p>{{friend.user.first_name}} {{friend.user.last_name}}</p>
+                            </div>
+                        </div>
+                    </label>        
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% else %}
+    <div class='friend-add-suggest'>
+        <p> You have no friend in your friends' list. <a href='/friends/find'>Find some</a></p>
+    </div>
+    {% endif %}
+  </div>
+  <div class="modal-footer">
+    {% if friends %}
+        <a href='#' class="btn btn-primary" id='send_recommend_btn'>Recommend</a>
+    {% endif %}
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+  </div>
+</div>
+
+
+<div class="modal hide" id="modal_cancel_activity">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+     <h4>Tell the host reason you cancel your attendance</h4>
+  </div>
+  <div class="modal-body">
+        <textarea id='cancel_message' rows=5 cols=20 >Time Conflict</textarea>
+  </div>
+  <div class="modal-footer">
+     <a href='#' class="btn btn-primary" id='send_cancel_message_btn'>Send</a>
+     <a href="#" class="btn" data-dismiss="modal">Close</a>
+  </div>
+</div>
+
+<div class="modal hide" id="modal_remove_comment">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+  </div>
+  <div class="modal-body">
+        <p> Are you sure you want to remove this comment? </p>
+  </div>
+  <div class="modal-footer">
+     <a href='#comment_box' class="btn btn-primary" id='final_remove_comment_btn' onClick='final_remove_comment()'>Remove</a>
+     <a href="#comment_box" class="btn" data-dismiss="modal">Cancel</a>
+  </div>
+</div>
+
+<div class='modal hide' id='modal_upload_photo'>
+  <div class="modal-header">
+    <h3> Upload Photo </h3>
+  </div>
+  <div class="modal-body">
+   {% load photo %}
+   {% multiupform %}
+  </div>
+  <div class="modal-footer">
+     <a href="#" class="btn btn-primary" data-dismiss="modal">Done</a>
+  </div>
+</div>
+
+<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/plugins/jquery_file_upload/jquery.iframe-transport.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/plugins/jquery_file_upload/jquery.fileupload.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/plugins/jquery_file_upload/jquery.fileupload-ui.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/plugins/jquery_file_upload/application.js"></script>
+</div>
+{% endblock %}
+

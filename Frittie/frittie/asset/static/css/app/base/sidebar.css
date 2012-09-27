@@ -1,0 +1,528 @@
+.sidebar-section {
+	background-color: #f2f2f2;
+	border-left: 1px solid #cbc9ca;
+	position: fixed;
+	right: 0px;
+	top: 50px;
+	height: 100%;
+	width: 300px;
+	z-index: 10;
+}
+
+.connection-pagination {
+	position: absolute;
+	height: 46px;
+	right: 0px;
+	top: 50px;
+	border-top:1px solid #cbc9c9;
+	border-bottom:1px solid #cbc9c9;
+	z-index: 1001;
+}
+
+.connection-pagination .search-pagination {
+	margin-right: 6px;
+	margin-top: 5px;
+}
+
+.connection-pagination .search-pagination img {
+	margin-left: 0px;
+}
+
+.thin-section li.search-connection-item,
+.thin-section li.search-pagination-item {
+	padding: 0px;
+	margin: 0px
+}
+
+.thin-section .search-pagination-list {
+	margin: 0px;
+	padding: 0px;
+}
+
+.thin-section .search-connection-list {
+	position: absolute;
+	top: 162px;
+	left: 0px;
+	right: 0px;
+}
+
+.connection-header  {
+	position:absolute;
+	top: 50px;
+	background-color: #f2f2f2;
+	z-index: 1000;
+}
+
+.connection-header .search-info {
+	height: 46px;
+}
+
+.connection-header .search-topic {
+	font-weight: bold;
+	font-size: 12px;
+	margin-top: 14px;
+	margin-left: 20px;
+}
+
+.connection-header .save-search-content {
+	margin-left: 20px;
+	margin-right: 15px;
+	width: 285px;
+}
+
+.connection-header .save-title {
+	font-size: 12px;
+	font-weight: bold;
+	margin-top: 18px;
+	margin-bottom: 14px;
+}
+
+.save-search-form .text-label {
+	font-size: 12px;
+}
+
+.save-search-form a {
+	color: #cacaca;
+	font-size:12px;
+	font-style: italic;
+	height: 100%;
+	width: 100%;
+}
+
+.save-search-form a:hover {
+	text-decoration: none
+}
+
+.save-search-form .wrapper {
+	padding-top: 3px;
+	padding-left: 10px;
+}
+
+.save-search-form .profile-select,
+.save-search-form .community-select {
+	margin-top: 5px;
+	background-color: white;
+	border-radius: 3px;
+	border: 1px solid #d6d6d6;
+	height: 25px;
+}
+
+.save-search-form .profile-select {
+	width: 110px;
+}
+
+.save-search-form .profile-select img,
+.save-search-form .community-select img {
+	float: right;
+	margin-top: 6px;
+	margin-right: 8px;
+}
+
+.save-search-form .community-select {
+	width: 149px;
+}
+
+.save-search-form .profile-data {
+	width: 40%;
+	float: left;
+}
+
+.save-search-form .community-data {
+	width: 50%;
+	float: left;
+	margin-left: 20px;
+}
+
+.profile-select-option,
+.community-select-option{
+	border: 1px solid #d6d6d6;
+	border-bottom: 0px;
+	-webkit-box-shadow: none;
+	   -moz-box-shadow: none;
+			box-shadow: none;
+}
+
+.profile-select-option {
+	position: absolute;
+	top: 149px;
+	left: 20px;
+	min-width: 50px;
+	width: 110px;
+	border-radius: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+.profile-select-option li,
+.community-select-option li {
+	height: 22px;
+	padding: 5px 0px 0px 8px;
+	font-size: 12px;
+	border-bottom: 1px solid #d6d6d6;
+}
+
+.profile-select-option li:hover,
+.community-select-option li:hover {
+	background-color: #cacaca;
+}
+
+.community-select-option {
+	position: absolute;
+	top: 149px;
+	left: 154px;
+	min-width: 50px;
+	width: 149px;
+	border-radius: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+.save-search-form .notes-data {
+	margin-top: 18px;
+}
+
+.note_textbox {
+	margin-top: 7px;
+	width: 269px;
+	padding-left: 8px;
+	padding-top: 3px;
+	height: 60px;
+	font-size: 12px;
+	font-style:italic;
+	color: #cacaca;
+}
+
+.note_textbox::-webkit-input-placeholder,
+.note_textbox::-moz-placeholder,
+.note_textbox::-ms-input-placeholder{
+	font-style: italic;
+	font-size: 12px;
+	color: #cacaca;
+}
+
+.connection-action {
+	position: absolute;
+	top: 50px;
+	margin-top: 49px;
+	margin-bottom: 30px;
+}
+
+.connection-action .save-search {
+	margin-left: 22px;
+}
+
+.connection-action .save-search-button {
+	font-weight: bold;
+	font-size: 11px;
+	background-color: #e2e2e2;
+	width: 72px;
+	height: 28px;
+	text-align: center;
+	padding-top: 5px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+	z-index: -2;
+	position: relative;
+	top: -1px;
+}
+
+.connection-search-result {
+	position: absolute;
+	top: -63px;
+	z-index: -3;
+}
+
+.connection-search-result .result-text {
+	font-style: italic;
+	margin-top: 6px;
+	color: #909090;
+	font-size: 12px;
+	margin-right: 12px;
+	z-index: -3;
+}
+
+.connection-sign-in-message {
+	margin-bottom: 35px;
+	font-size: 14px;
+}
+
+.connection-sign-in-message a {
+	color: #ee8912;
+	font-weight: bold;
+}
+
+.connection-sign-in-message a:hover {
+	text-decoration: none
+}
+
+.connection-content {
+	width: 320px;
+	margin-right: 0px;
+	height: 100%;
+	/*height: 450px;*/
+}
+
+.connection-content .available {
+	margin-left: 4px;
+}
+
+.connection-content .zero-result {
+	font-style: italic;
+	margin-top: 15px;
+	margin-bottom: 0px;
+	font-size: 12px;
+	color: #919191;
+}
+
+.connection-people,
+.connection-people-signout,
+.connection-community,
+.connection-community-signout,
+.connection-sign-in-message  {
+	width: 270px;
+	margin-right:15px;
+	margin-left: 20px;
+}
+
+.connection-community {
+	margin-top: 35px;
+}
+
+.connection-community-signout {
+	margin-top: 10px;
+}
+.connection-people-header,
+.connection-community-header,
+.connection-people-header-signout {
+	border-bottom: 1px solid #e2e2e2;
+	padding-bottom: 10px;
+}
+
+.people-number,
+.community-number {
+	color: #878b94;
+	font-size: 11px;
+}
+
+.people-number-wrap,
+.community-number-wrap {
+	margin-right: 2px;
+	padding-top: 1px;
+	background-color: white;
+	border: 1px solid #d0cfd4;
+	border-radius: 10px;
+	width: 35px;
+	height: 19px;
+	z-index: -1;
+	text-align: center;
+}
+
+.community-number-wrap {
+	margin-bottom: 3px
+}
+
+.connection-people-content,
+.connection-community-content,
+.connection-people-content-signout,
+.connection-community-content-signout {
+	overflow: hidden;
+}
+
+.connection-people-content ul,
+.connection-community-content ul  {
+	margin-left: 0px;
+	margin-top: 15px;
+	list-style: none;
+}
+
+.connection-people-content ul li,
+.connection-community-content ul li {
+	display: block;
+	float: left;
+	margin-bottom: 15px;
+}
+
+.people-picture,
+.people-contact,
+.community-picture,
+.community-contact {
+	float: left;
+}
+
+.connection-people .people-picture,
+.connection-community .community-picture {
+	width: 50px;
+	height: 50px;
+	background-image: url('http://db0dp9rjtl3zs.cloudfront.net/zaahah.com/v3/img/app/connection/small-picture-frame.png');
+}
+
+.connection-people .people-picture img,
+.connection-community .community-picture img {
+	position: relative;
+	top: 3px;
+	left: 3px;
+}
+
+.connection-people-content .people-contact,
+.connection-community-content .community-contact {
+	margin-left: 12px;
+	margin-top: 5px;
+}
+
+.connection-people-content .people-name,
+.connection-community-content .community-name {
+	/*font-family: "Helvetica Neue";*/
+	font-weight: bold;
+	font-size: 12px;
+
+}
+.connection-people-content .people-contact .people-search-topic {
+	color: #989898;
+	font-size: 12px;
+	margin-top: -3px;
+}
+
+
+.connection-community .community-admin {
+	font-size: 11px;
+}
+
+.connection-community .community-admin .fullname {
+	color: #f08913;
+}
+
+.connection-community .community-admin .role {
+	color: #adadad;
+	margin-right: 3px;
+}
+
+.connection-people-action,
+.connection-community-action {
+	margin: 0px;
+	padding: 0px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+  root element for the slideshow.
+  when scrolling occurs this element stays still.
+  */
+.slideshow {
+
+    /* required settings */
+    position:relative;
+    overflow:hidden;
+    width: 300px;
+    height:50px; 
+}
+
+/*
+   root element for slideshow items. Must be absolutely positioned
+   and it should have a extremely large width to accomodate slideshow
+   items.  it's enough that you set the width and height for the root
+   element and not for this element.
+*/
+.slideshow .items {
+    /* this cannot be too large */
+    width:20000em;
+    position:absolute;
+    clear:both;
+}
+
+.items div {
+    float:left;
+    width:680px;
+}
+
+/* single slideshow item */
+.slideshow img {
+    float:left;
+    margin-right: 10px;
+    background-color:#fff;
+    padding:2px;
+    border:1px solid #ccc;
+    width:40px;
+    height:40px;
+
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+}
+
+/* active item */
+.slideshow .active {
+    border:2px solid #000;
+    position:relative;
+    cursor:default;
+}
+
+
+
+
+
+
+
+
+
+/* this makes it possible to add next button beside slideshow */
+.slideshow {
+    float:left;
+}
+
+/* prev, next, prevPage and nextPage buttons */
+a.browse {
+    background:url('../../../img/app/sidebar/scroll-button.png') no-repeat;
+    display:block;
+    width:30px;
+    height:30px;
+    float:left;
+    margin:40px 10px;
+    cursor:pointer;
+    font-size:1px;
+}
+
+/* right */
+a.right { background-position: 0 -30px; clear:right; margin-right: 0px;}
+a.right:hover { background-position:-30px -30px; }
+a.right:active { background-position:-60px -30px; }
+
+
+/* left */
+a.left { margin-left: 0px; }
+a.left:hover  { background-position:-30px 0; }
+a.left:active { background-position:-60px 0; }
+
+/* up and down */
+a.up, a.down  {
+    background:url('../../../img/app/sidebar/scroll-button.png') no-repeat;
+    float: none;
+    margin: 10px 50px;
+}
+
+/* up */
+a.up:hover { background-position:-30px 0; }
+a.up:active { background-position:-60px 0; }
+
+/* down */
+a.down { background-position: 0 -30px; }
+a.down:hover { background-position:-30px -30px; }
+a.down:active { background-position:-60px -30px; }
+
+
+/* disabled navigational button */
+a.disabled {
+    visibility:hidden !important;
+}

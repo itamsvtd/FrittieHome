@@ -1,0 +1,23 @@
+{% extends "base.html" %} 
+
+{% block main_section %}	 
+	<div class="category-area row-fluid">
+		{% block category_area %} 
+        {% endblock %}
+	</div>
+	<div class="main-area row-fluid">
+		{% block main_area %}
+    	{% endblock %}
+    </div>
+</div>
+{% endblock %}
+
+{% block additional_hidden_modal %}
+<!-- Define value here for use in javascript -->
+    {% if member_login %}
+        <input type='hidden' id='check_login' value="True">
+        <input type='hidden' id='member_login_username' value='{{member_login.user.username}}'>
+    {% else %}
+        <input type='hidden' id='check_login' value='False'>
+    {% endif %}
+{% endblock %}

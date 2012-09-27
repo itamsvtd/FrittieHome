@@ -1,0 +1,431 @@
+{% load dajaxice_templatetags %}
+<!DOCTYPE html>
+<html>
+<head>
+
+    {% dajaxice_js_import %}
+
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>{% block title %}Frittie - Home {% endblock %}</title>
+    
+    <meta name="Copyright" content="Frittie LLC" />
+    <meta name="keywords" content="Frittie, Friend, Connect, Social Network, Activity, Location, Place, Restaurant, Cinema, Interact" />
+    <meta name="description" content="Frittie is a web application provide users wopportunity to connect with other people by joining in activity in their favourite location" />
+
+    <!-- Initital Static File -->
+    {% block init_static_file %}
+        <link rel="icon" href="{{STATIC_URL}}img/ico/favicon.ico" type="image/x-icon" />
+        
+        <!-- Plugin CSS -->
+        <link rel="stylesheet" href="{{STATIC_URL}}libs/bootstrap/css/bootstrap.css" type="text/css" />
+        <link rel="stylesheet" href="{{STATIC_URL}}libs/jquery/css/ui-lightness/jquery-ui-1.8.20.custom.css" type="text/css" />
+        
+        <!-- Custom Site CSS -->
+        <link rel="stylesheet" href="{{STATIC_URL}}css/app/base/styles.css" type="text/css" />
+
+        <!-- Plugin Javascript -->
+        <script type="text/javascript" src="{{STATIC_URL}}libs/jquery/js/jquery-1.8.0.min.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}libs/jquery/js/jquery-ui-1.8.20.custom.min.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}libs/bootstrap/js/bootstrap.js"></script>
+        <script src="http://cdn.jquerytools.org/1.2.7/all/jquery.tools.min.js"></script>
+
+        <!-- Site Javascript -->
+        <script type="text/javascript" src="{{STATIC_URL}}js/app/support.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}js/app/common.js"></script>
+        <script type="text/javascript">
+            var autocomplete_data = {{autocomplete_data|safe}};
+        </script>
+        <script type="text/javascript" src="{{STATIC_URL}}js/app/base_load.js"></script>
+    {% endblock %}
+    <!-- Initital Static File -->
+
+    
+    <!-- Custom script for different pages -->
+    {% block script %} 
+    {% endblock %}
+     <!-- Custom script for different pages -->
+
+
+    {% block comet_init %} 
+        <script type="text/javascript" src="{{STATIC_URL}}libs/orbited/Orbited.js"></script>
+        <script>
+            // set the orbited settings and port
+            Orbited.settings.port = 9000;
+            Orbited.settings.hostname = "localhost";
+            //Orbited.settings.streaming = false;
+            TCPSocket = Orbited.TCPSocket
+        </script>
+        <script> 
+            document.domain = document.domain; 
+        </script>
+        <script type="text/javascript" src="{{STATIC_URL}}libs/stomp/stomp.js"></script>
+    {% endblock %}
+
+    {% block comet_js_function %}
+        <script type='text/javascript'>
+            function update_data(data) {
+                update_notify(data)
+            }
+        </script>
+    {% endblock %}
+
+    {% block comet_main_controller %}
+        <script type="text/javascript" charset="utf-8">
+            $(document).ready(function() {
+                stomp = new STOMPClient();
+                stomp.onopen = function(){
+                    console.log("opening stomp client");
+                };
+                stomp.onclose = function(c){
+                    console.log('Lost Connection, Code: ' + c);
+                };
+                stomp.onerror = function(error){
+                    console.log("Error: " + error);
+                };
+                stomp.onerrorframe = function(frame){
+                    console.log("Error: " + frame.body);
+                };
+                stomp.onconnectedframe = function(){
+                    console.log("Connected. Subscribing");
+                    //alert("subscribing");
+                    stomp.subscribe("/update");
+                };
+                stomp.onmessageframe = function(frame){
+                    // Presumably we should only receive message frames with the
+                    // destination "/topic/message" because that's the only destination
+                    // to which we've subscribed. To handle multiple destinations we
+                    // would have to check frame.headers.destination.
+                    update_data(JSON.parse(frame.body));
+                };
+                stomp.connect('localhost', 61613);
+            });
+        </script>
+    {% endblock %}
+</head>
+<body>
+
+<div id='main_body' class='row-fluid'>
+
+    <!-- Header block layout -->
+    {% block header %} 
+    <div id="Header" class='row-fluid'>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+
+                    {% block header_content %}
+                    <div class='normal-row row-fluid' style='height:48px'>
+                        <!-- Navigation Left Section -->
+                            <ul class="nav nav-left">
+                                <li class='brand-name responsive-pivot-0'>
+                                    <a href='/'> 
+                                        FRITTIE
+                                    </a>
+                                </li>
+
+                                {% if member_login %}
+                                <li class='my-activity responsive-hide responsive-element left-element'>
+                                    <a href='#'>
+                                        MY ACTIVITY
+                                    </a>
+                                </li> 
+                                <li class="divider-vertical responsive-hide responsive-pivot-1"></li>
+                                <li class='create responsive-hide pointer-cursor responsive-element right-element'>
+                                    <a href='#'>
+                                        CREATE
+                                    </a>
+                                </li>
+                                <li class="divider-vertical responsive-hide"></li>
+                                 {% endif %}
+
+                                <!-- Search bar -->
+                                <li class='search'>
+                                    <form action="/search/" method="get" class='search-bar pull-left' autocomplete='off'>
+                                        <input type="text" id="search_query" size="100" name='q' placeholder="Search your location" data-provide="typeahead" data-items="5" />
+                                        <input id='search_submit_btn' type="submit" />
+                                        <!-- <img class='pointer-cursor responsive-show' src='includes/img/app/header/responsive-search-icon.png' id='responsive_search_btn' style='display:none' alt='Responsive Search Icon'> -->
+                                        <input type='text' class='search-result' value='5' readonly="readonly" style='display:none;' >
+                                        <input type='hidden' id='check_responsive' value='False'>
+                                    </form>
+                                </li>
+                            </ul>   
+
+                            <!-- Navigation Right Section -->
+                            {% if member_login %}
+                            <ul class='nav pull-right nav-right'> 
+                                
+                                <li class='divider-vertical responsive-pivot-1'></li>
+                                <li class='responsive-icon pointer-cursor responsive-show' style='display:none;' >
+                                    <img src='{{STATIC_URL}}/img/app/header/stack-icon.png' alt='Stack Icon'>
+                                </li>
+                                <li class='user-account'>
+                                    <div class='user-account-area'>
+                                        <a href="/{{member_login.user.username}}">
+                                            <div class='profile-picture pull-left'>
+                                                {% if member_login.avatar %}
+                                                    <img src="{{member_login.avatar.url}}" id='user_account_avatar' width='35' height='35'/>
+                                                {% else %}
+                                                    {% if member_login.gender == "Female" %}
+                                                        <img src="{{STATIC_URL}}/img/female_icon.gif" id='user_account_avatar' width='35' height='35' />
+                                                    {% else %}
+                                                        <img src="{{STATIC_URL}}/img/male_icon.gif" id='user_account_avatar' width='35' height='35' />
+                                                    {% endif %}
+                                                {% endif %}
+                                            </div>
+                                            <div class='fullname pull-left'>
+                                                {% if member_login.user.first_name or member_login.user.last_name %}
+                                                    {{member_login.user.first_name}} {{ member_login.user.last_name}}
+                                                {% else %}
+                                                    {{member_login.user.username}}
+                                                {% endif %}
+                                            </div>
+                                        </a>
+                                    </div>
+                                </li>
+                                <li class='user-menu responsive-hide dropdown' id='user_menu'> 
+                                    <div class='user-menu-area'>
+                                        <a href='#' id='handler_user_menu_dropdown' class="dropdown-toggle" role="button" data-toggle="dropdown">
+                                            <div class='dropdown-icon'>                  
+                                                <img src='{{STATIC_URL}}/img/app/header/arrow-icon.png' width='17' height='17' alt='dropdown arrow'>    
+                                            </div>
+                                        </a>
+                                        <ul id="user_action" class="dropdown-menu">
+                                            <li id="buzz">
+                                                <a href="/buzz">
+                                                    {% if new_buzzes|length > 0 %}
+                                                        Notification ({{new_buzzes|length}})
+                                                    {% else %}
+                                                        Notification
+                                                    {% endif %}
+                                                </a>
+                                            </li>
+                                            <li id="messages">
+                                                <a href="/messages">
+                                                    {% if new_mail|length > 0 %}
+                                                        Messages ({{new_mail|length}})
+                                                    {% else %}
+                                                        Messages
+                                                    {% endif %}
+                                                </a>
+                                            </li>
+                                            <li id='invite_friend'>
+                                                <a href='/friends/invite'>
+                                                    Invite Friends
+                                                </a>
+                                            </li>
+                                            <li class="divider"></li>
+                                            <li class='account-settings'>
+                                                <a href='/setting'>
+                                                    Settings
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href='/logout'>
+                                                    Sign Out
+                                                </a>
+                                            </li>      
+                                        </ul>
+                                    </div>                                     
+                                </li>
+                                <li class='notification-section'>
+                                    <div id='new_notify'>
+                                        {% if new_notify > 0 %}
+                                            <a href='#user_menu' class="dropdown-toggle btn-mini" data-toggle="dropdown" > 
+                                                {{new_notify}}
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                                <li class='divider-vertical'></li>
+                                <li class='discover'>
+                                        <div class='discover-text'>
+                                            DISCOVER YOUR ACTIVITY
+                                        </div>
+                                    </li>
+                                <li class='sidebar-button'>
+                                    <a href='#' id='handler_sidebar' >
+                                        <img src='{{STATIC_URL}}/img/app/header/sidebar-icon.png' width='15' height ='15' alt='Open SideBar Icon' >
+                                    </a>
+                                </li>
+                            </ul>
+                            {% else %}
+                            <ul class='nav pull-right nav-right signup-login'> 
+                                <li class='signup pointer-cursor'>
+                                    <a href='/signup'>
+                                        SIGN UP
+                                    </a>
+                                </li>
+                                <li class='short-divider'></li>
+                                <li class='login pointer-cursor'>     
+                                    <a href='/login'>
+                                        LOGIN
+                                    </a>            
+                                </li>
+                                <li class='divider-vertical'></li>
+                                <li class='sidebar-button'>
+                                    <a href='#' id='handler_sidebar' >
+                                        <img src='{{STATIC_URL}}/img/app/header/sidebar-icon.png' width='15' height ='15' alt='Open SideBar Icon' >
+                                    </a>
+                                </li>
+                            </ul>
+                            {% endif %}
+                    </div>
+                    {% endblock %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}  
+
+    <!-- Content block -->
+    {% block content %} 
+    <div id='Content' class='row-fluid'>
+        <div class='main-section'>
+            {% block main_section %}
+
+            {% endblock %}
+        </div>
+
+        <div class='sidebar-section'>
+            <div class='sidebar-member row-fluid'>
+                <div class='sidebar-member-content row-fluid'>
+                    
+                    <div class='member-slideshow'>
+                        
+                       
+                            <a class="prev browse left"></a>
+
+<!-- root element for scrollable -->
+<div class="slideshow">
+
+  <!-- root element for the items -->
+  <div class="items">
+
+    <!-- 1-5 -->
+    <div>
+      <img src="http://farm1.static.flickr.com/143/321464099_a7cfcb95cf_t.jpg" />
+      <img src="http://farm4.static.flickr.com/3089/2796719087_c3ee89a730_t.jpg" />
+      <img src="http://farm1.static.flickr.com/79/244441862_08ec9b6b49_t.jpg" />
+      <img src="http://farm1.static.flickr.com/28/66523124_b468cf4978_t.jpg" />
+    </div>
+
+    <!-- 5-10 -->
+    <div>
+      <img src="http://farm1.static.flickr.com/163/399223609_db47d35b7c_t.jpg" />
+      <img src="http://farm1.static.flickr.com/135/321464104_c010dbf34c_t.jpg" />
+      <img src="http://farm1.static.flickr.com/40/117346184_9760f3aabc_t.jpg" />
+      <img src="http://farm1.static.flickr.com/153/399232237_6928a527c1_t.jpg" />
+    </div>
+
+    <!-- 10-15 -->
+    <div>
+      <img src="http://farm4.static.flickr.com/3629/3323896446_3b87a8bf75_t.jpg" />
+      <img src="http://farm4.static.flickr.com/3023/3323897466_e61624f6de_t.jpg" />
+      <img src="http://farm4.static.flickr.com/3650/3323058611_d35c894fab_t.jpg" />
+      <img src="http://farm4.static.flickr.com/3635/3323893254_3183671257_t.jpg" />
+    </div>
+
+  </div>
+
+</div>
+
+<!-- "next page" action -->
+<a class="next browse right"></a>
+
+
+
+                    </div>
+
+
+                </div>
+            </div>
+            <div class='sidebar-schedule row-fluid'>
+                <div class='sidebar-schedule-content row-fluid'>
+                    <div class=''>
+
+                    </div>
+                </div>
+            </div>
+            <div class='sidebar-location row-fluid'>
+                <div class='sidebar-location-content row-fluid'>
+                    <div class=''>
+
+                    </div>
+                </div>
+            </div>
+            <div class='sidebar-activity row-fluid'>
+                <div class='sidebar-activity-header row-fluid'>
+
+                </div>
+                <div class='sidebar-activity-content row-fluid'>
+
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+    <!-- Footer Block -->
+    {% block footer %} 
+    <div id="Footer" class='row-fluid'>
+        <div class="info row-fluid">
+            <div class='left-area pull-left'>
+                <div class='copyright'>
+                    Frittie © 2012
+                </div>
+            </div>
+            <div class='right-area pull-right'>
+                <ul class='navbar'>
+                    <li>
+                        <a href="/info/about_us">About Us</a>
+                    </li>
+                    <li>
+                        <a href="/info/career">Career</a>
+                    </li>
+                    <li>
+                        <a href="/info/contact_us">Contact Us</a>
+                    </li>
+                    <li>
+                        <a href="/info/copyright">Copyright</a>
+                    </li>
+                    <li>
+                        <a href="/info/help">Help</a>
+                    </li>
+                    <li>
+                        <a href="/info/privacy_policy">Privacy Policy</a>
+                    </li>
+                    <li>
+                        <a href="/info/safety">Safety</a>
+                    </li>
+                    <li>
+                        <a href="/info/team">Team</a>
+                    </li>
+                    <li>
+                        <a href="/info/term_service">Term of Service</a>
+                    </li>
+                 </ul>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+
+    <input type='hidden' id='sidebar_section_value' value='Open'>
+
+    <!--  Hidden and Modal field here -->
+    {% block additional_hidden_modal %} 
+    {% endblock %}
+    <!--  Hidden and Modal field here -->
+
+
+    <!--  Additional script if needed here -->
+    {% block additional_script %} 
+    {% endblock %}
+    <!--  Additional script if needed here -->
+
+    
+</div>
+</body>
+</html>
+

@@ -1,0 +1,9 @@
+{% load i18n %} 
+	<li class='recent-stream-item-data' >  
+		<div class='recent-stream-content' >
+			<a href='/activity/{{activity.id}}' > 
+				<img src="{{MEDIA_URL}}{{activity.logo.url}}" width=25 height=25 />
+	 		</a> 
+			<b> {{member_login.user.first_name}}</b> adds photos in activity <a href='/activity/{{activity.id}}' > {{activity.name}} </a>
+		</div> 
+	</li>

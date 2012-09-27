@@ -1,0 +1,9 @@
+{% load i18n %} 
+	<li class='recent-stream-item-data' >  
+		<div class='recent-stream-content' >
+			<a href='/{{member2.user.username}}' > 
+				<img src="{{MEDIA_URL}}{{member2.avatar.url}}" width=25 height=25 />
+	 		</a> 
+			<b> {{member1.user.first_name}}</b> is friend with <a href='/{{member2.user.username}}' > {{member2.user.first_name}} {{member2.user.last_name}} </a>
+		</div> 
+	</li>

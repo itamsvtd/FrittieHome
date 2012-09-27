@@ -1,0 +1,30 @@
+{% extends "auth_template/auth_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block script %} 
+	<link href="{{ STATIC_URL }}css/facebook.css" type="text/css" rel="stylesheet" media="all" />
+	{% include 'django_facebook/_facebook_js.html' %}
+{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Sign Up" %}</h1>
+	 <form action="{% url facebook_connect %}?facebook_login=1" method="post">
+        <br/>
+        <input type="hidden" value="{{ request.path }}" name="next" />      
+        <div id="facebook_login_js">
+        <input onclick="F.connect(this.parentNode.parentNode); return false;" type="image" src="http://e.fashiocdn.com/images/b_signin_facebook_small.png" /><br/>
+    </form>
+    <form class="signup" id="signup_form" method="post" action="{% url account_signup %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <button type="submit">{% trans "Sign Up" %} &raquo;</button>
+    </form>    
+{% endblock %}
+
+

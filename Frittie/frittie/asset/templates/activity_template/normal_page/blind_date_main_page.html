@@ -1,0 +1,350 @@
+{% extends "activity_template/activity_normal_base.html" %}
+
+{% block script %} 
+<!-- Always load 4 app css and js file -->
+<link rel="stylesheet" href="{{STATIC_URL}}css/app/activity.css" type="text/css" />
+<script type="text/javascript" src="{{STATIC_URL}}js/app/activity/function.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/app/activity/load.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/app/activity/main.js"></script>
+{% endblock %}
+
+{% block toolbar %}
+<div id='activity_toolbar'>
+	<div class='container-fluid'>
+		<div class='row>'>
+			<div class='span8'>
+
+			<!-- When activity is over, we allow user to upload the picture of the activity
+		 		Those picture will appear here as a slideshow. When user click on any photo
+		 		It will pop up a new window and have interface like twitter photo gallery -->
+				{% if activity.activity_status == 'Past' %}
+				<div id='activity_picture_gallery'>		
+					{% if activity_photo %}
+						<ul class='photo-list-data'>
+							{% for photo in activity_photo %}
+								<li class='photo-item-data' id='photo-{{photo.pk}}'>
+									<img src='{{MEDIA_URL}}{{photo.image}}' width=50 height=50 />
+								</li>
+							{% endfor %}
+						</ul>
+					{% endif %}
+				</div>
+				{% endif %}
+			</div>
+
+			<div class='span4'>
+				<!-- Button here -->
+				<div id='activity_button_action' class='pull-right'>
+				{% if activity.activity_status == 'Past' %}
+					{% if is_user_activity_join or is_user_activity_create %}
+						<div class='upload-photo-button'>
+							<button id="upload_photo_btn" class="btn btn-primary" href="#">
+               					Upload Photo
+           					</button>
+						</div>
+					{% endif %}
+				{% else %}
+					<div class='handler-button'>
+						{% if is_user_activity_create %}
+							<button id="edit_handler" class="btn btn-primary" href="#">
+            		   			Edit
+            				</button>
+						{% else %}
+							{% if activity_user_request == None or activity_user_request.request_status == 'Decline' %}
+								{% if activity_unjoinable == None %}
+									<input type='button' id="join_handler" class="btn btn-primary" href="#" value="Join" />
+								{% else %}				
+									<input type='button' id="unjoin_handler" class="btn btn-primary disabled" href="#" rel='popover' data-content='{{activity_unjoinable}}' value="Join" />
+								{% endif %}
+							{% else %}
+								{% if activity_user_request.request_status == 'Accepted' %}
+									<p class='activity-accepted'>Accepted</p>
+									<input type='button' id="join_handler" class="btn btn-primary" href="#" value="Cancel" />
+								{% else %}
+									<input type='button' class='btn btn-primary disabled activity-waiting' href='#' value='Waiting Response'>
+								{% endif %}
+							{% endif %}
+						{% endif %}
+					</div>
+					<div class='recommend-button'>
+						<button id="recommend_btn" class="btn btn-primary" data-toggle="modal">
+    	        			Recommend Friends
+    	   				</button>
+    				</div>
+    			{% endif %}
+    			</div>
+    		</div>
+    	</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block member_area %}
+<div id='member_area'>
+	<div id='member_create_section'>
+		<h4>Created</h4>
+		<div class='member-data'>
+			<ul>
+				<li>
+					<a href="/{{activity.member_create.user.username}}">
+						<img src='{{MEDIA_URL}}{{activity.member_create.avatar}}' width=50 height=50>
+						{{activity.member_create.user.first_name}} {{activity.member_create.user.last_name}}
+					</a> 
+				</li>
+			</ul>
+		</div>
+	</div>	
+	<hr>
+	<div id='member_join_section'>
+		<h4>Going</h4>
+		<div class='member-data'>
+			<ul>
+				{% for member in activity.member_join.all %}
+					<li>
+						<a href="/{{member.user.username}}">
+							<img src='{{MEDIA_URL}}{{member.avatar}}' width=50 height=50>
+							{{member.user.first_name}} {{member.user.last_name}}
+						</a> 
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+	<hr>
+	<div id='member_friend_section'>
+		<h4>Your Friends </h4>
+		<div class='member-data'>
+			<ul>
+				{% for member in friends_join %}
+					<li>
+						<a href="/{{member.user.username}}">
+							<img src='{{MEDIA_URL}}{{member.avatar}}' width=50 height=50>
+							{{member.user.first_name}} {{member.user.last_name}}
+						</a> 
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+
+</div>
+{% endblock %}
+
+{% block activity_area %}
+<div id='activity_area'>
+	<div id='activity_header'>
+		<div class='logo'>
+			<a href="/activity/{{activity.pk}}">
+				<img src='{{MEDIA_URL}}{{activity.logo}}' width=150 height=150>
+			</a>
+		</div>
+		<div class='general-info'>
+			<div class='name'>
+				{{activity.name}}
+			</div>
+			<div class='time'>
+				<div class='start-time'>
+					From: 
+					<div class='date'>
+						<script>
+                    		var weekday = parseInt({{activity.start_time.date.weekday}},10);
+                    		var day = parseInt({{activity.start_time.date.day}},10);
+                    		var month = parseInt({{activity.start_time.date.month}},10);
+                    		var year = parseInt({{activity.start_time.date.year}},10);
+                    		var date = convert_date_name(year,month,day,weekday)
+							document.write(date);   
+						</script>
+					</div>
+					<div class='time'>
+						<script>
+							var year = parseInt({{activity.start_time.year|safe}},10);
+                    		var hour = parseInt({{activity.start_time.hour|safe}},10);
+                    		var minute = parseInt({{activity.start_time.minute|safe}},10);
+                    		var day = parseInt({{activity.start_time.date.day}},10);
+                    		var month = parseInt({{activity.start_time.date.month}},10);
+                    		var time = convert_24hr_to_AM_PM(year,month,day,hour,minute)['string'];
+							document.write(time);   
+						</script>
+					</div>
+				</div>
+				<div class='end-time'>
+					To: 
+					<div class='date'>
+						<script>
+                    		var weekday = parseInt({{activity.end_time.date.weekday}},10);
+                    		var day = parseInt({{activity.end_time.date.day}},10);
+                    		var month = parseInt({{activity.end_time.date.month}},10);
+                    		var year = parseInt({{activity.end_time.date.year}},10);
+                    		var date = convert_date_name(year,month,day,weekday)
+							document.write(date);   
+						</script>
+					</div>
+					<div class='time'>
+						<script>
+							var year = parseInt({{activity.start_time.year|safe}},10);
+                    		var hour = parseInt({{activity.end_time.hour|safe}},10);
+                    		var minute = parseInt({{activity.end_time.minute|safe}},10);
+                    		var day = parseInt({{activity.end_time.date.day}},10);
+                    		var month = parseInt({{activity.end_time.date.month}},10);
+                    		var time = convert_24hr_to_AM_PM(year,month,day,hour,minute)['string'];
+							document.write(time);   
+						</script>
+					</div>
+				</div>
+			</div>
+			<div class='status'>
+				{{activity.privacy_status}}
+			</div>
+			<div class='limit'>
+				Limit people: {{activity.limit}}
+			</div>
+		</div>
+	</div>
+	<hr>
+	<div id='activity_body'>
+		<div class='activity-description'>
+			<div class='title'>
+				<h4>Description</h4>
+			</div>
+			<div class='body'>
+				{{activity.description_html|safe}}
+			</div>
+		</div>
+	</div>
+	<hr>
+	<div id='activity_comment'>
+		<div class='activity-comment-data'>
+			<ul class='comment-list-data'>
+				{% if activity_comment %}		
+					{% for comment in activity_comment %}
+						<li class='comment-item-data' id='comment-{{comment.pk}}'>
+							{% if comment.member == member_login %}			
+								<div class='remove-comment pull-right'>
+									<a href='#comment-{{comment.pk}}' class='icon-remove' id='remove_comment_btn' rel='tooltip' title='Remove this comment' onclick='init_remove_comment({{comment.pk}})'></a>
+								</div>
+								<div class='edit-comment pull-right'>
+									<a href='#comment-{{comment.pk}}' class='icon-pencil' id='edit_comment_btn' rel='tooltip' title='Edit this comment' onclick='init_edit_comment({{comment.pk}})'></a>
+								</div>
+							{% else %}
+								<div class='report-comment pull-right'>
+									<a href='#comment-{{comment.pk}}' class='icon-flag' id='report_comment_btn' rel='tooltip' title='Report this comment' onclick='report_comment({{comment.pk}})'></a>
+								</div>
+							{% endif %}
+							<div class='comment-member-avatar'>
+								<a href='/{{comment.member.user.username}}'>
+									<img src='{{MEDIA_URL}}{{comment.member.avatar}}' width=50 height=50>
+								</a>
+							</div>
+							<div class='comment-member-name'>
+								<a href='/{{comment.member.user.username}}'>
+									<p>
+										{{comment.member.user.first_name}} {{comment.member.user.last_name}}
+									</p>
+								</a>
+							</div>
+							<div class='comment-main-content'>					
+									{{comment.content_html|safe}}
+							</div>
+							<div class='comment-post-date'>
+								<p>
+									{{comment.created_elapse_time}}
+									<!--
+									<script>
+                    					var hour = parseInt({{comment.created_date.hour|safe}},10);
+                    					var minute = parseInt({{comment.created_date.minute|safe}},10);
+                    					var day = parseInt({{comment.created_date.day}},10);
+                    					var month = parseInt({{comment.created_date.month}},10);
+                    					var year = parseInt({{comment.created_date.year}},10);
+                    					var date = standard_datetime_format(year,month,day,hour,minute)
+										document.write(date);   
+									</script>
+									-->
+								</p>
+							</div>
+							{% if comment.edit_date %}
+							<div class='comment-edit-date'>
+								<p><small>Last Updated: 
+									{{comment.edit_elapse_time}}
+									<!--
+									<script>
+                    					var hour = parseInt({{comment.edit_date.hour|safe}},10);
+                    					var minute = parseInt({{comment.edit_date.minute|safe}},10);
+                    					var day = parseInt({{comment.edit_date.day}},10);
+                    					var month = parseInt({{comment.edit_date.month}},10);
+                    					var year = parseInt({{comment.edit_date.year}},10);
+                    					var date = standard_datetime_format(year,month,day,hour,minute)
+										document.write(date);   
+									</script>
+									-->
+								</small></p>
+							</div>
+							{% endif %}
+						</li>
+					{% endfor %}
+				{% endif %}
+			</ul>
+		</div>
+		<div class='activity-comment-box'>
+			{% if member_login %}
+				<textarea id='comment_box'></textarea>
+			{% else %}
+				<p> <a href='/login/?next=/activity/{{activity.pk}}'> Login</a> to comment</p>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock %}
+
+{% block location_area %}
+<div id='location_area'>
+	<div id='location_info'>
+		<div class='location-name'>
+			<h4>{{activity_location.name}}</h4>
+		</div>
+		<div class='location-photo carousel slide'>
+			<div class='carousel-inner'>
+				<div class="item active">
+              		<img src="{{MEDIA_URL}}{{activity_location.avatar}}" alt="">
+          		</div>
+          		{% if location_photo %}
+            		{% for photo in activity_location_photo %}
+              			<div class="item">
+                			<img src="{{MEDIA_URL}}{{photo.photo}}" alt="">      
+              			</div>
+            		{% endfor %}
+          		{% endif %}
+				<a class="left carousel-control" data-slide="prev" href="#location_photo">‹</a>
+				<a class="right carousel-control" data-slide="next" href="#location_photo">›</a>
+			</div>
+		</div>
+		{% if activity_location_preference %}
+			<div class='location-preference'>
+				<div class='preference-title'>
+					<p> What to do here: </p>
+				</div>
+				<div class='preference-body'>
+					{% for location_preference in activity_location_preference.all %}
+						<div class='preference-content'>
+							{{location_preference.content_html|safe}}
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		{% endif %}
+	</div>
+	<hr>
+	<div id='location_map'>
+		<div class='map-title'>
+			<h4>Enter your address to get direction support</h4>
+			<input type='text' width=200>
+		</div>
+		<div class='map-body'>
+			<div class='map-canvas'>
+				 <div id="location_map" style="width:300px; height:200px"></div>
+			</div>
+			<div class='map-result'>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

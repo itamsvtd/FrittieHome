@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}	
+    <div id="Content">
+    	<div id='show_notice_message'></div>
+    	<div id='main_area'>
+    		<div class='container-fluid'>
+    			<div class='row-fluid'>
+    				{% if is_import_fb_friend %}
+    					<div class='span1'></div>
+    					<div class='span6'>
+    						{% block invite_friends_area %} {% endblock %}
+    					</div>
+    					<div class='span4'>
+    						{% block suggest_friends_area %} {% endblock %}
+    					</div>
+    					<div class='span1'></div>
+    				{% else %}
+    					<div class='span8'>
+    						{% block import_friends_area %} {% endblock %}
+    					</div>
+    				{% endif %}
+    			</div>
+    		</div>
+      </div> 
+    </div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "location_template/location_normal_base.html" %}
+
+{% block content %}
+<div class="center hero-unit">
+{% if form.is_multipart %}
+  <form enctype="multipart/form-data" method="post" action="/location/create/">{% csrf_token %}
+{% else %}
+    <form method="post" action="/location/create/">{% csrf_token %}
+{% endif %}
+{{ form.as_table }}
+<input type="submit" value="Submit" />
+</form>
+</div>
+</div>
+{% endblock %}

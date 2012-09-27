@@ -1,0 +1,278 @@
+#Header {
+	height: 50px;
+}
+
+#Header .container {
+	width: 100%;
+	height: 48px;
+}
+
+#Header .navbar-inner {
+	background-color: #333;
+	border: 1px solid #415867;
+	width: 100%;
+	position: fixed;
+	top: 0px;
+	height: 48px;
+	min-width: 430px;
+	z-index: 1030;
+}
+
+#Header .brand-name {
+	margin-left: 45px;
+	margin-right: 25px;
+}
+
+#Header .brand-name a {
+	color: white;
+	font-size: 20px;
+	font-weight: bold;
+	padding-left: 0px;
+	padding-top: 14px;
+}
+
+#Header .my-activity,
+#Header .create,
+#Header .signup,
+#Header .login {
+  	font-weight: bold;
+  	letter-spacing:0px;
+  	font-size: 13px;
+}
+
+#Header .my-activity a,
+#Header .create a,
+#Header .signup a,
+#Header .login a {
+	text-shadow: none;
+	padding-top: 14px;
+	color: white;
+	padding-left: 0px;
+}
+
+#Header .my-activity a:hover,
+#Header .create a:hover,
+#Header .signup a:hover,
+#Header .login a:hover {
+	text-decoration: underline;
+}
+
+#Header .create a {
+	padding-right: 14px;
+}
+
+#Header .signup a,
+#Header .login a {
+	padding-right: 25px;
+}
+
+#Header .navbar .nav-left ul li {
+	vertical-align: center;
+}
+
+#Header .navbar .nav-left .divider-vertical,
+#Header .navbar .nav-right .short-divider  {
+	height: 12px;
+	margin-top: 17px;
+	background-color: white;
+	opacity: 0.2;
+	border-left: 0px;
+}
+
+#Header .navbar .nav-left .divider-vertical {
+	margin-right: 18px;
+}
+
+#Header .navbar .nav-right .short-divider {
+	margin-right: 25px;
+	border-right: 1px solid rgba(255,255,255,0.2);
+}
+
+#Header .nav-left li {
+	height: 50px;
+}
+
+#search_query {
+	background-color: #ffffff;
+	border-radius: 2px;
+	border: 1px solid #333;
+	height:20px;
+	width: 280px;
+	min-width: 130px;
+	color: #333;
+	padding-left: 18px;
+	font-weight: bold;
+}
+
+#search_query:focus {
+	border: 0px;
+	border-color: black;
+	border: 1px solid #283a46;
+}
+
+#search_query::-webkit-input-placeholder,
+#search_query::-moz-placeholder {
+	color: #cacaca;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+#search_submit_btn
+{
+  	z-index: 1;
+  	background: url('../../../img/app/header/search-icon.png');
+  	position: relative;
+  	left: -29px;
+  	top: -2px;
+  	border: 0 none;
+  	height: 1.5em;
+  	line-height: 1.5em;
+  	text-indent: 100px;
+  	width: 20px;
+}
+
+#responsive_search_btn {
+	position: relative;
+  	left: -20px;
+  	top: 4px;
+}
+
+#Header .search-bar {
+	margin:0px;
+	padding: 9px 0px 0px 20px;
+	height: 48px;
+}
+
+
+#Header .search-bar .search-result {
+	position: absolute;
+	top: 10px;
+	right: 57px;
+	background-color: #1a242b ;
+	border-right: 1px solid #273843;
+	border-top: 0px;
+	border-bottom: 0px;
+	border-left: 1px solid #273843;
+	width:25px;
+	z-index:1;
+	border-radius: 0px;
+	font-weight: bold;
+	color: #959698;
+	height: 20px;
+	text-align: center;
+}
+
+#Header .search-bar .search-result:hover {
+	cursor: default;
+}
+
+#Header .navbar .nav-right {
+	margin: 0px;
+}
+
+#Header .navbar .nav-right li {
+	margin:0px;
+	padding: 0px;
+}
+
+#Header .navbar .nav-right .divider-vertical {
+	height: 48px;
+	background-color: white;
+	opacity: 0.2;
+	border-right: 0px;
+}
+
+#Header .navbar .nav-right .user-account  {
+	text-align: center;
+	width: 155px;
+	height: 48px;
+	position: relative;
+	top:0px;
+	border: 0px;
+}
+
+#Header .navbar .nav-right .user-account-area {
+	margin-top: 1px;
+	height: 48px;
+	margin-left: 15px;
+}
+
+#Header .navbar .nav-right .profile-picture {
+	margin-top: 3px;
+}
+
+#user_menu {
+	height: 48px;
+}
+
+#user_menu .user-menu-area {
+	padding-top:1px;
+}
+
+.user-account-hover-effect {
+	background-color: #333;
+}
+
+#Header .navbar .nav-right .fullname {
+  	font-weight: bold;
+  	letter-spacing:0px;
+  	font-size: 13px;
+	color: white;
+	margin-top: 13px;
+	margin-left: 11px;
+}
+
+#Header .navbar .nav-right .responsive-icon {
+	width:60px;
+	height: 48px;
+}
+
+#Header .navbar .nav-right .responsive-icon img
+{
+	margin-left: 20px;
+	margin-top: 15px;
+}
+
+#handler_responsive_search_bar {
+	margin-top: 16px;
+	margin-right: 20px;
+}
+
+#user_account_avatar {
+	border: 2px solid white;
+}
+
+#Header .navbar .nav-right .dropdown-icon{
+	margin-top: 13px;
+	margin-right: 15px;
+}
+
+
+#Header .discover-text {
+	float: left;
+  	font-weight: bold;
+  	letter-spacing: 1px;
+	font-size: 14px;
+	padding:14px 0px 0px 18px;
+	color: white;
+	white-space: nowrap;
+}
+
+#Header .sidebar-button {
+	position: relative;
+	right: 0px;
+	width: 58px;
+	height: 48px;
+}
+
+#Header .sidebar-button a {
+	padding: 12px 0px 0px 20px;
+}
+
+#handler_user_account_dropdown div {
+	float: left;
+}
+
+#handler_user_account_dropdown:hover {
+	text-decoration: none
+}

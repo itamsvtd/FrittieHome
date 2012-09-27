@@ -1,0 +1,22 @@
+---------------------------------
+-								-
+-		Author: Dang Nguyen		-	
+-								-
+---------------------------------
+
+Todo list:
+	_create activity
+	_edit activity
+Done	_activity page
+Done	_member normal page
+	_member admin page
+	_integrate facebook account/import friend from facebook
+Done	_notify user when there are new activity
+	_activity stream in member admin page -> show what happen in their follow location, their friend
+Done	_a mail box for receiving and sending message -> modify the django-postman app
+	_write info about the site: about us, contact us, career, term...
+	_change location page layout by adding the location review
+	_google map finding direction support in activity page
+	_add facebook like/share, twitter tweet, and google +1 functionality to each location, and activity
+	_add/find friends
+Done	_recommend friends		

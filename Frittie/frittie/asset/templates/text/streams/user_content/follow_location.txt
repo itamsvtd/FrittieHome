@@ -1,0 +1,9 @@
+{% load i18n %} 
+	<li class='recent-stream-item-data' >  
+		<div class='recent-stream-content' >
+			<a href='/location/{{location.id}}' > 
+				<img src="{{MEDIA_URL}}{{location.avatar.url}}" width=25 height=25 />
+	 		</a> 
+			<b> {{member_login.user.first_name}}</b> followed <a href='/location/{{location.id}}' > {{location.name}} </a>
+		</div> 
+	</li>
